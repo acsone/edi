@@ -6,7 +6,7 @@
 Account Invoice UBL
 ===================
 
-This module adds support for UBL, the `Universal Business Language (UBL) <http://ubl.xml.org/>`_ standard, on invoices. The UBL 2.1 standard became the `ISO/IEC 19845 <http://www.iso.org/iso/catalogue_detail.htm?csnumber=66370>`_ standard in December 2015 (cf the `official announce <http://www.prweb.com/releases/2016/01/prweb13186919.htm>_`).
+This module adds support for UBL, the `Universal Business Language (UBL) <http://ubl.xml.org/>`_ standard, on invoices. The UBL 2.1 standard became the `ISO/IEC 19845 <http://www.iso.org/iso/catalogue_detail.htm?csnumber=66370>`_ standard in December 2015 (cf the `official announce <http://www.prweb.com/releases/2016/01/prweb13186919.htm>`_).
 
 With this module, you can generate customer invoices/refunds:
 
@@ -18,7 +18,10 @@ This module supports UBL version 2.1 (used by default) and 2.0.
 Configuration
 =============
 
-On the form view of the company, there is an option to embed the PDF of the invoices inside the XML invoice.
+In the menu *Accounting > Configuration > Settings*, check the value of 2 options:
+
+* *XML Format embedded in PDF invoice* : if you want to have an UBL XML file embedded inside the PDF invoice, set it to *Universal Business Language (UBL)*
+* if you work directly with XML invoices and you want to have the PDF invoice in base64 inside the XML file, enable the *Embed PDF in UBL XML Invoice*.
 
 Usage
 =====
