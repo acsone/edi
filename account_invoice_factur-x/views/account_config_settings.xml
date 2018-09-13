@@ -9,18 +9,18 @@
 <record id="view_account_config_settings" model="ir.ui.view">
     <field name="name">account_invoice_factur-x.account.config.settings</field>
     <field name="model">account.config.settings</field>
-    <field name="inherit_id" ref="account.view_account_config_settings"/>
+    <field name="inherit_id" ref="account_e-invoice_generate.view_account_config_settings"/>
     <field name="arch" type="xml">
-        <div name="customer_payments" position="after">
+        <div name="e-invoices" position="after">
             <label for="id" string="Factur-X Invoices"/>
             <div name="facturx">
                 <div name="facturx_level">
                     <label for="facturx_level" />
-                    <field name="facturx_level" class="oe_inline"/>
+                    <field name="facturx_level" class="oe_inline" attrs="{'required': [('xml_format_in_pdf_invoice', '=', 'factur-x')]}"/>
                 </div>
                 <div name="facturx_refund_type">
                     <label for="facturx_refund_type" />
-                    <field name="facturx_refund_type" class="oe_inline"/>
+                    <field name="facturx_refund_type" class="oe_inline" attrs="{'required': [('xml_format_in_pdf_invoice', '=', 'factur-x')]}"/>
                 </div>
             </div>
         </div>

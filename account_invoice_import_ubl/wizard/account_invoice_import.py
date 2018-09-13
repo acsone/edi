@@ -27,6 +27,14 @@ class AccountInvoiceImport(models.TransientModel):
             return super(AccountInvoiceImport, self).parse_xml_invoice(
                 xml_root)
 
+    def check_customer_data(self, customer_xpath, namespaces):
+        customer_data = self.ubl_parse_customer_party(
+            customer_xpath, namespaces)
+        if self.env.user.company_id.vat != customer_data['vat']:
+            raise UserError(_(
+                "Customer info don't match with your current company.\n"
+                "Please check that you are logged to the correct company."))
+
     def get_attachments(self, xml_root, namespaces):
         attach_xpaths = xml_root.xpath(
             "//cac:AdditionalDocumentReference", namespaces=namespaces)
@@ -146,6 +154,11 @@ class AccountInvoiceImport(models.TransientModel):
         doc_type_xpath = xml_root.xpath(
             "/inv:Invoice/cbc:InvoiceTypeCode[@listAgencyID='6']",
             namespaces=namespaces)
+        customer_xpath = xml_root.xpath(
+            '/inv:Invoice/cac:AccountingCustomerParty',
+            namespaces=namespaces)
+        self.check_customer_data(
+            customer_xpath[0], namespaces)
         inv_type = 'in_invoice'
         if doc_type_xpath:
             inv_type_code = doc_type_xpath[0].text
@@ -156,6 +169,11 @@ class AccountInvoiceImport(models.TransientModel):
             if inv_type_code == '381':
                 inv_type = 'in_refund'
         inv_number_xpath = xml_root.xpath('//cbc:ID', namespaces=namespaces)
+        ord_number_xpath = xml_root.xpath('//cac:OrderReference/cbc:ID',
+                                          namespaces=namespaces)
+        origin = False
+        if ord_number_xpath:
+            origin = ord_number_xpath[0].text
         supplier_xpath = xml_root.xpath(
             '/inv:Invoice/cac:AccountingSupplierParty',
             namespaces=namespaces)
@@ -232,6 +250,7 @@ class AccountInvoiceImport(models.TransientModel):
             'type': inv_type,
             'partner': supplier_dict,
             'invoice_number': inv_number_xpath[0].text,
+            'origin': origin,
             'date': fields.Date.to_string(date_dt),
             'date_due': date_due_str,
             'currency': {'iso': currency_iso_xpath[0].text},
