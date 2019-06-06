@@ -30,10 +30,12 @@ class AccountInvoiceImport(models.TransientModel):
     def check_customer_data(self, customer_xpath, namespaces):
         customer_data = self.ubl_parse_customer_party(
             customer_xpath, namespaces)
-        if self.env.user.company_id.vat != customer_data['vat']:
-            raise UserError(_(
-                "Customer info don't match with your current company.\n"
-                "Please check that you are logged to the correct company."))
+        if not self.env.context.get('edi_skip_company_check', False):
+            if self.env.user.company_id.vat != customer_data['vat']:
+                raise UserError(_(
+                    "Customer info don't match with your current company.\n"
+                    "Please check that you are logged to the "
+                    "correct company."))
 
     def get_attachments(self, xml_root, namespaces):
         attach_xpaths = xml_root.xpath(
