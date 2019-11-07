@@ -27,6 +27,16 @@ class AccountInvoiceImport(models.TransientModel):
             return super(AccountInvoiceImport, self).parse_xml_invoice(
                 xml_root)
 
+    def check_customer_data(self, customer_xpath, namespaces):
+        customer_data = self.ubl_parse_customer_party(
+            customer_xpath, namespaces)
+        if not self.env.context.get('edi_skip_company_check', False):
+            if self.env.user.company_id.vat != customer_data['vat']:
+                raise UserError(_(
+                    "Customer info don't match with your current company.\n"
+                    "Please check that you are logged to the "
+                    "correct company."))
+
     def get_attachments(self, xml_root, namespaces):
         attach_xpaths = xml_root.xpath(
             "//cac:AdditionalDocumentReference", namespaces=namespaces)
@@ -144,8 +154,13 @@ class AccountInvoiceImport(models.TransientModel):
         self._ubl_check_xml_schema(xml_string, 'Invoice', version=ubl_version)
         prec = self.env['decimal.precision'].precision_get('Account')
         doc_type_xpath = xml_root.xpath(
-            "/inv:Invoice/cbc:InvoiceTypeCode[@listAgencyID='6']",
+            "/inv:Invoice/cbc:InvoiceTypeCode",
             namespaces=namespaces)
+        customer_xpath = xml_root.xpath(
+            '/inv:Invoice/cac:AccountingCustomerParty',
+            namespaces=namespaces)
+        self.check_customer_data(
+            customer_xpath[0], namespaces)
         inv_type = 'in_invoice'
         if doc_type_xpath:
             inv_type_code = doc_type_xpath[0].text
