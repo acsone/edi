@@ -20,6 +20,7 @@ class TestUbl(TransactionCase):
                 'due_date': '2015-02-16',
                 'partner_xmlid': 'account_invoice_import_ubl.ketentest',
                 'vat': False,
+                'type': 'in_invoice',
                 },
             'efff_BE0505890632_160421_Inv_16117778.xml': {
                 'invoice_number': '16117778',
@@ -30,7 +31,8 @@ class TestUbl(TransactionCase):
                 'due_date': '2016-04-28',
                 'partner_xmlid': 'account_invoice_import_ubl.exact_belgium',
                 'vat': 'BE0882555389',
-            },
+                'type': 'in_refund',
+                },
             'UBLInvoice-multitankcard-line_adjust.xml': {
                 'invoice_number': '6311117',
                 'amount_untaxed': 75.01,
@@ -38,6 +40,7 @@ class TestUbl(TransactionCase):
                 'date_invoice': '2017-03-07',
                 'partner_xmlid': 'account_invoice_import_ubl.multi_tank',
                 'vat': 'NL123456782B90',
+                'type': 'in_invoice',
                 },
             }
         aio = self.env['account.invoice']

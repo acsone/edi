@@ -2,7 +2,7 @@
 # © 2015-2016 Akretion (Alexis de Lattre <alexis.delattre@akretion.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, api, tools, _
+from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError
 import os
 from tempfile import mkstemp
@@ -78,15 +78,21 @@ class AccountInvoiceImport(models.TransientModel):
                 'iso': invoice2data_res.get('currency'),
                 },
             'amount_total': invoice2data_res.get('amount'),
-            'invoice_number': invoice2data_res.get('invoice_number'),
             'date': invoice2data_res.get('date'),
             'date_due': invoice2data_res.get('date_due'),
             'date_start': invoice2data_res.get('date_start'),
             'date_end': invoice2data_res.get('date_end'),
-            'description': invoice2data_res.get('description'),
             }
+        for field in ['invoice_number', 'description']:
+            if isinstance(invoice2data_res.get(field), list):
+                parsed_inv[field] = ' '.join(invoice2data_res[field])
+            else:
+                parsed_inv[field] = invoice2data_res.get(field)
         if 'amount_untaxed' in invoice2data_res:
             parsed_inv['amount_untaxed'] = invoice2data_res['amount_untaxed']
         if 'amount_tax' in invoice2data_res:
             parsed_inv['amount_tax'] = invoice2data_res['amount_tax']
+        for key, value in parsed_inv.items():
+            if key.startswith('date') and parsed_inv[key]:
+                parsed_inv[key] = fields.Date.to_string(parsed_inv[key])
         return parsed_inv
