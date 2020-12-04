@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<warehousing_outbound_notification:warehousingOutboundNotificationMessage
+    xmlns:warehousing_outbound_notification="urn:gs1:ecom:warehousing_outbound_notification:xsd:3"
+    xmlns:sh="http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:gs1:ecom:warehousing_outbound_notification:xsd:3 ../Schemas/gs1/ecom/WarehousingOutboundNotification.xsd"
+>
+    <sh:StandardBusinessDocumentHeader>
+        <sh:HeaderVersion>1.0</sh:HeaderVersion>
+        <sh:Sender>
+            <sh:Identifier Authority="GS1" />
+            <sh:ContactInformation>
+                <sh:Contact>John Doe</sh:Contact>
+                <sh:EmailAddress>John_Doe@purchasing.XYZretailer.com</sh:EmailAddress>
+                <sh:FaxNumber>+1-212-555-1213</sh:FaxNumber>
+                <sh:TelephoneNumber>+1-212-555-2122</sh:TelephoneNumber>
+                <sh:ContactTypeIdentifier>Buyer</sh:ContactTypeIdentifier>
+            </sh:ContactInformation>
+        </sh:Sender>
+        <sh:Receiver>
+            <sh:Identifier Authority="GS1" />
+            <sh:ContactInformation>
+                <sh:Contact>Mary Smith</sh:Contact>
+                <sh:EmailAddress>Mary_Smith@widgets.com</sh:EmailAddress>
+                <sh:FaxNumber>+1-312-555-1214</sh:FaxNumber>
+                <sh:TelephoneNumber>+1-312-555-2125</sh:TelephoneNumber>
+                <sh:ContactTypeIdentifier>Seller</sh:ContactTypeIdentifier>
+            </sh:ContactInformation>
+        </sh:Receiver>
+        <sh:DocumentIdentification>
+            <sh:Standard>GS1</sh:Standard>
+            <sh:TypeVersion>3.4</sh:TypeVersion>
+            <sh:InstanceIdentifier>100002</sh:InstanceIdentifier>
+            <sh:Type />
+            <sh:MultipleType>false</sh:MultipleType>
+            <sh:CreationDateAndTime
+            >2006-01-10T12:00:01.000-05:00</sh:CreationDateAndTime>
+        </sh:DocumentIdentification>
+    </sh:StandardBusinessDocumentHeader>
+    <warehousingOutboundNotification>
+        <creationDateTime>2020-01-13T16:16:01.000+01:00</creationDateTime>
+        <documentStatusCode>ORIGINAL</documentStatusCode>
+        <documentActionCode>ADD</documentActionCode>
+        <documentStructureVersion>3.4</documentStructureVersion>
+        <lastUpdateDateTime>2020-01-13T16:16:01.000+01:00</lastUpdateDateTime>
+        <revisionNumber>1</revisionNumber>
+        <warehousingOutboundNotificationIdentification>
+            <entityIdentification>OBSTA00119</entityIdentification>
+        </warehousingOutboundNotificationIdentification>
+        <logisticServicesBuyer>
+            <gln>12345678912345</gln>
+        </logisticServicesBuyer>
+        <logisticServicesSeller>
+            <gln>7640156959918</gln>
+        </logisticServicesSeller>
+        <carrierTrackAndTraceInformation>
+            <carrierTrackAndTraceURL />
+            <packageTrackingNumber />
+        </carrierTrackAndTraceInformation>
+        <warehousingOutboundNotificationShipment>
+            <note languageCode="en">Goods have been processed by cargo partner.</note>
+            <shipmentIdentification>
+                <gsin>33333330000114050</gsin>
+            </shipmentIdentification>
+            <shipper>
+                <gln>0000000000044</gln>
+                <additionalPartyIdentification
+                    additionalPartyIdentificationTypeCode="BUYER_ASSIGNED_IDENTIFIER_FOR_A_PARTY"
+                >CARRIER#1</additionalPartyIdentification>
+            </shipper>
+            <receiver>
+                <gln>7640107320002</gln>
+                <address>
+                    <city>Rome</city>
+                    <countryCode>IT</countryCode>
+                    <name>Marco Rossi</name>
+                    <pOBoxNumber />
+                    <postalCode>00167</postalCode>
+                    <state />
+                    <streetAddressOne>Via Gandino, 10</streetAddressOne>
+                    <streetAddressTwo />
+                    <geographicalCoordinates>
+                        <latitude />
+                        <longitude />
+                    </geographicalCoordinates>
+                </address>
+            </receiver>
+            <buyer>
+                <gln>7640107320002</gln>
+                <address>
+                    <city>Rome</city>
+                    <countryCode>IT</countryCode>
+                    <name>Marco Rossi</name>
+                    <pOBoxNumber />
+                    <postalCode>00167</postalCode>
+                    <state />
+                    <streetAddressOne>Via Gandino, 10</streetAddressOne>
+                    <streetAddressTwo />
+                    <geographicalCoordinates>
+                        <latitude />
+                        <longitude />
+                    </geographicalCoordinates>
+                </address>
+            </buyer>
+            <seller>
+                <gln>7609999021701</gln>
+                <address>
+                    <city>Basel</city>
+                    <countryCode>CH</countryCode>
+                    <name>GVFI International AG</name>
+                    <pOBoxNumber />
+                    <postalCode>4056</postalCode>
+                    <state>Basel Stadt</state>
+                    <streetAddressOne>Neudorfstrasse 90</streetAddressOne>
+                    <streetAddressTwo />
+                    <geographicalCoordinates>
+                        <latitude>47°34'27.7"</latitude>
+                        <longitude>7°33'58.5"</longitude>
+                    </geographicalCoordinates>
+                </address>
+            </seller>
+            <shipTo>
+                <gln>7640107320002</gln>
+                <address>
+                    <city>Rome</city>
+                    <countryCode>IT</countryCode>
+                    <name>Marco Rossi</name>
+                    <pOBoxNumber />
+                    <postalCode>00167</postalCode>
+                    <state />
+                    <streetAddressOne>Via Gandino, 10</streetAddressOne>
+                    <streetAddressTwo />
+                    <geographicalCoordinates>
+                        <latitude />
+                        <longitude />
+                    </geographicalCoordinates>
+                </address>
+            </shipTo>
+            <deliveryTerms>
+                <incotermsCode>EXW</incotermsCode>
+                <deliveryTermsLocation>Schaffisheim</deliveryTermsLocation>
+            </deliveryTerms>
+            <transportCargoCharacteristics>
+                <cargoTypeCode>Palletized</cargoTypeCode>
+                <finalDestinationCountry>LI</finalDestinationCountry>
+                <totalGrossVolume measurementUnitCode="CBM" />
+                <totalGrossWeight measurementUnitCode="KGM">411.43</totalGrossWeight>
+                <totalTransportNetWeight
+                    measurementUnitCode="KGM"
+                >361.25</totalTransportNetWeight>
+                <totalLoadingLength measurementUnitCode="M" />
+                <totalPackageQuantity>30</totalPackageQuantity>
+                <totalItemQuantity>90</totalItemQuantity>
+            </transportCargoCharacteristics>
+            <packageTotal>
+                <packageTypeCode>CT</packageTypeCode>
+                <totalPackageQuantity>30</totalPackageQuantity>
+                <totalGrossVolume measurementUnitCode="KGM" />
+                <totalGrossWeight measurementUnitCode="">388.25</totalGrossWeight>
+            </packageTotal>
+            <handlingInstruction>
+                <handlingInstructionCode>11</handlingInstructionCode>
+            </handlingInstruction>
+            <warehousingOutboundStatusCode>GOODS_LOADED</warehousingOutboundStatusCode>
+            <warehousingOutboundExceptionCode />
+            <plannedDespatch>
+                <logisticEventDateTime>
+                    <date>2020-01-13</date>
+                </logisticEventDateTime>
+            </plannedDespatch>
+            <actualDespatch>
+                <logisticEventDateTime>
+                    <date>2020-01-13</date>
+                    <time>16:16:00</time>
+                </logisticEventDateTime>
+            </actualDespatch>
+            <carrierTrackAndTraceInformation>
+                <carrierTrackAndTraceURL
+                >https://www.carriertrackingurl.com</carrierTrackAndTraceURL>
+                <packageTrackingNumber>123456123456312</packageTrackingNumber>
+            </carrierTrackAndTraceInformation>
+            <warehousingOutboundInstruction>
+                <entityIdentification>WH/OUT/00004</entityIdentification>
+                <creationDateTime>2020-01-07T21:15:00.000+01:00</creationDateTime>
+                <referencedDocumentUrl />
+            </warehousingOutboundInstruction>
+            <warehousingOutboundNotificationShipmentItem>
+                <lineItemNumber>1</lineItemNumber>
+                <note languageCode="en" />
+                <transactionalTradeItem>
+                    <gtin>14334399999999</gtin>
+                    <additionalTradeItemIdentification
+                        additionalTradeItemIdentificationTypeCode="MANUFACTURER_PART_NUMBER"
+                    >1153415656</additionalTradeItemIdentification>
+                    <transactionalItemData>
+                        <batchNumber>L0000275908</batchNumber>
+                        <bestBeforeDate>2020-06-01</bestBeforeDate>
+                        <countryOfOrigin>IE</countryOfOrigin>
+                        <itemExpirationDate />
+                        <productionDate />
+                        <sellByDate />
+                        <shelfLife />
+                    </transactionalItemData>
+                </transactionalTradeItem>
+                <logisticUnit>
+                    <sscc>311111110000123179</sscc>
+                    <grossWeight measurementUnitCode="KGM">411.43</grossWeight>
+                    <packageTypeCode>200</packageTypeCode>
+                    <tradeItemQuantity measurementUnitCode="CT">30</tradeItemQuantity>
+                    <unitMeasurement>
+                        <measurementType>DECLARED_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >361.25</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TARE_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >50.18</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TOTAL_GROSS_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >411.43</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>UNIT_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >361.25</measurementValue>
+                    </unitMeasurement>
+                </logisticUnit>
+                <inventoryLocation>
+                    <gln>7640156959918</gln>
+                    <additionalPartyIdentification
+                        additionalPartyIdentificationTypeCode="BUYER_ASSIGNED_IDENTIFIER_FOR_A_PARTY"
+                    >LGHA/Lager - frisch</additionalPartyIdentification>
+                </inventoryLocation>
+                <inventorySubLocation>
+                    <gln>7640156959918</gln>
+                    <glnExtension>verzollt</glnExtension>
+                </inventorySubLocation>
+                <transportCargoCharacteristics>
+                    <countryOfOriginCode>IE</countryOfOriginCode>
+                    <declaredWeightForCustoms measurementUnitCode="KGM" />
+                </transportCargoCharacteristics>
+                <packageTotal>
+                    <packageTypeCode>CT</packageTypeCode>
+                    <totalPackageQuantity>30</totalPackageQuantity>
+                    <totalGrossWeight
+                        measurementUnitCode="KGM"
+                    >388.44</totalGrossWeight>
+                </packageTotal>
+                <inventoryDutyFeeTaxStatus>
+                    <dutyFeeTaxTypeCode>IMP</dutyFeeTaxTypeCode>
+                    <dutyFeeTaxDescription languageCode="de" />
+                    <customsWarehouseStatusCode
+                    >FREE_CIRCULATION</customsWarehouseStatusCode>
+                </inventoryDutyFeeTaxStatus>
+                <avpList>
+                    <eComStringAttributeValuePairList
+                        attributeName="actualDespatchQuantity_KGM"
+                    >361.25</eComStringAttributeValuePairList>
+                </avpList>
+                <warehousingOutboundExceptionCode />
+                <plannedDespatchQuantity
+                    measurementUnitCode="CT"
+                >30</plannedDespatchQuantity>
+                <actualDespatchQuantity
+                    measurementUnitCode="CT"
+                >30</actualDespatchQuantity>
+                <outboundQuantityVariance>
+                    <varianceQuantity measurementUnitCode="CT">0</varianceQuantity>
+                </outboundQuantityVariance>
+                <warehousingOutboundInstruction>
+                    <entityIdentification>WH/OUT/00004</entityIdentification>
+                    <creationDateTime>2020-01-07T21:15:00.000+01:00</creationDateTime>
+                    <lineItemNumber>1</lineItemNumber>
+                    <referencedDocumentUrl
+                    >https://gvfi-demo.braintec-group.com/document/share/37/b0e5ffb2-5bb8-45d4-934c-01ae33709e51</referencedDocumentUrl>
+                </warehousingOutboundInstruction>
+            </warehousingOutboundNotificationShipmentItem>
+        </warehousingOutboundNotificationShipment>
+    </warehousingOutboundNotification>
+</warehousing_outbound_notification:warehousingOutboundNotificationMessage>

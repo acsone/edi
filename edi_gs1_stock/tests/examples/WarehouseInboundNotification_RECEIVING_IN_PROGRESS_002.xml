@@ -1,0 +1,926 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<warehousing_inbound_notification:warehousingInboundNotificationMessage
+    xmlns:warehousing_inbound_notification="urn:gs1:ecom:warehousing_inbound_notification:xsd:3"
+    xmlns:sh="http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:gs1:ecom:warehousing_inbound_notification:xsd:3 ../Schemas/gs1/ecom/WarehousingInboundNotification.xsd"
+>
+    <sh:StandardBusinessDocumentHeader>
+        <sh:HeaderVersion>1.0</sh:HeaderVersion>
+        <sh:Sender>
+            <sh:Identifier Authority="GS1" />
+            <sh:ContactInformation>
+                <sh:Contact>Lagerhäuser Aarau AG</sh:Contact>
+                <sh:EmailAddress>mail@la-aarau.ch</sh:EmailAddress>
+                <sh:TelephoneNumber>0041 62 836 07 07</sh:TelephoneNumber>
+                <sh:ContactTypeIdentifier
+                >Warehouse Storagelocation</sh:ContactTypeIdentifier>
+            </sh:ContactInformation>
+        </sh:Sender>
+        <sh:Receiver>
+            <sh:Identifier Authority="GS1" />
+            <sh:ContactInformation>
+                <sh:Contact>GVFI International AG</sh:Contact>
+                <sh:EmailAddress>info@gvfi.ch</sh:EmailAddress>
+                <sh:FaxNumber>0041 61 264 50 51</sh:FaxNumber>
+                <sh:TelephoneNumber>0041 61 264 50 50</sh:TelephoneNumber>
+                <sh:ContactTypeIdentifier>Buyer</sh:ContactTypeIdentifier>
+            </sh:ContactInformation>
+        </sh:Receiver>
+        <sh:DocumentIdentification>
+            <sh:Standard>GS1</sh:Standard>
+            <sh:TypeVersion>3.4</sh:TypeVersion>
+            <sh:InstanceIdentifier
+            >LHAS-INT-2020-01-10-08:30:00-01</sh:InstanceIdentifier>
+            <sh:Type>Warehouse Inbound Notification</sh:Type>
+            <sh:MultipleType>false</sh:MultipleType>
+            <sh:CreationDateAndTime
+            >2020-01-10T07:30:01.000+01:00</sh:CreationDateAndTime>
+        </sh:DocumentIdentification>
+        <sh:Manifest>
+            <sh:NumberOfItems>3</sh:NumberOfItems>
+        </sh:Manifest>
+    </sh:StandardBusinessDocumentHeader>
+    <warehousingInboundNotification>
+        <creationDateTime>2020-01-10T07:30:00.000+01:00</creationDateTime>
+        <documentStatusCode>ORIGINAL</documentStatusCode>
+        <documentActionCode>ADD</documentActionCode>
+        <documentStructureVersion>3.4</documentStructureVersion>
+        <lastUpdateDateTime>2020-01-10T07:30:01.000+01:00</lastUpdateDateTime>
+        <revisionNumber>1</revisionNumber>
+        <warehousingInboundNotificationIdentification>
+            <entityIdentification>IBSTA00115</entityIdentification>
+        </warehousingInboundNotificationIdentification>
+        <logisticServicesBuyer>
+            <gln>7609999021701</gln>
+            <address>
+                <city>Basel</city>
+                <countryCode>CH</countryCode>
+                <name>GVFI International AG</name>
+                <pOBoxNumber />
+                <postalCode>4056</postalCode>
+                <state>Basel Stadt</state>
+                <streetAddressOne>Neudorfstrasse 90</streetAddressOne>
+                <streetAddressTwo />
+                <geographicalCoordinates>
+                    <latitude>47°34'27.7"</latitude>
+                    <longitude>7°33'58.5"</longitude>
+                </geographicalCoordinates>
+            </address>
+            <contact>
+                <contactTypeCode>CYC</contactTypeCode>
+                <personName>Robert Kreidel</personName>
+                <departmentName>Quality Management</departmentName>
+                <jobTitle>Quality Manager</jobTitle>
+                <communicationChannel>
+                    <communicationChannelCode>EMAIL</communicationChannelCode>
+                    <communicationValue>robert.kreidl@gvfi.ch</communicationValue>
+                </communicationChannel>
+                <afterHoursCommunicationChannel>
+                    <communicationChannelCode>TELEPHONE</communicationChannelCode>
+                    <communicationValue>+41 (0)61 264 50 51</communicationValue>
+                </afterHoursCommunicationChannel>
+            </contact>
+            <organisationDetails>
+                <organisationName>GVFI International AG</organisationName>
+                <officialAddress>
+                    <city>Basel</city>
+                    <countryCode>CH</countryCode>
+                    <name>GVFI International AG</name>
+                    <pOBoxNumber />
+                    <postalCode>4056</postalCode>
+                    <state>Basel Stadt</state>
+                    <streetAddressOne>Neudorfstrasse 90</streetAddressOne>
+                    <streetAddressTwo />
+                    <geographicalCoordinates>
+                        <latitude>47°34'27.7"</latitude>
+                        <longitude>7°33'58.5"</longitude>
+                    </geographicalCoordinates>
+                </officialAddress>
+            </organisationDetails>
+        </logisticServicesBuyer>
+        <logisticServicesSeller>
+            <gln>7640156959918</gln>
+            <address>
+                <city>Schaffisheim</city>
+                <countryCode>CH</countryCode>
+                <name>Lagerhäuser Aarau</name>
+                <pOBoxNumber />
+                <postalCode>5503</postalCode>
+                <state>Aargau</state>
+                <streetAddressOne>Aegerten 1</streetAddressOne>
+                <streetAddressTwo />
+                <geographicalCoordinates>
+                    <latitude />
+                    <longitude />
+                </geographicalCoordinates>
+            </address>
+            <contact>
+                <contactTypeCode />
+                <personName>Giuseppe Pizzo</personName>
+                <departmentName />
+                <jobTitle>Leiter Administration Frisch-Tiefkühllager</jobTitle>
+                <communicationChannel>
+                    <communicationChannelCode>EMAIL</communicationChannelCode>
+                    <communicationValue>g.pizzo@la-aarau.ch</communicationValue>
+                </communicationChannel>
+                <afterHoursCommunicationChannel>
+                    <communicationChannelCode>TELEPHONE</communicationChannelCode>
+                    <communicationValue>079 740 69 47</communicationValue>
+                </afterHoursCommunicationChannel>
+            </contact>
+            <organisationDetails>
+                <organisationName>Lagerhäuser Aarau AG</organisationName>
+                <officialAddress>
+                    <city>Aarau</city>
+                    <countryCode>CH</countryCode>
+                    <name>Lagerhäuser Aarau AG</name>
+                    <pOBoxNumber>Postfach 3302</pOBoxNumber>
+                    <postalCode>5001</postalCode>
+                    <state>Aargau</state>
+                    <streetAddressOne />
+                    <streetAddressTwo />
+                    <geographicalCoordinates>
+                        <latitude />
+                        <longitude />
+                    </geographicalCoordinates>
+                </officialAddress>
+            </organisationDetails>
+        </logisticServicesSeller>
+        <warehousingInboundNotificationShipment>
+            <note languageCode="en">Any note from the logistical service provider</note>
+            <shipmentIdentification>
+                <additionalShipmentIdentification
+                    additionalShipmentIdentificationTypeCode="GOODS_RECEIVER_ASSIGNED"
+                >PO00013</additionalShipmentIdentification>
+                <additionalShipmentIdentification
+                    additionalShipmentIdentificationTypeCode="SHIPPER_ASSIGNED"
+                >FY123456</additionalShipmentIdentification>
+            </shipmentIdentification>
+            <shipper>
+                <gln>7649991449004</gln>
+                <contact>
+                    <contactTypeCode />
+                    <personName>Herr Pascal Geisseler</personName>
+                    <departmentName />
+                    <jobTitle />
+                    <communicationChannel>
+                        <communicationChannelCode>EMAIL</communicationChannelCode>
+                        <communicationValue
+                        >pascal.geisseler@geisseler.ch</communicationValue>
+                    </communicationChannel>
+                    <afterHoursCommunicationChannel>
+                        <communicationChannelCode>TELEPHONE</communicationChannelCode>
+                        <communicationValue>+41 61 826 30 55</communicationValue>
+                    </afterHoursCommunicationChannel>
+                </contact>
+                <organisationDetails>
+                    <organisationName>Geisseler Cargo Logistik AG</organisationName>
+                    <officialAddress>
+                        <city>Pratteln</city>
+                        <countryCode>CH</countryCode>
+                        <name>Geisseler Cargo Logistik AG</name>
+                        <pOBoxNumber />
+                        <postalCode>4133</postalCode>
+                        <state>Basel Landschaft</state>
+                        <streetAddressOne>Im Wannenboden 8</streetAddressOne>
+                        <streetAddressTwo />
+                        <geographicalCoordinates>
+                            <latitude />
+                            <longitude />
+                        </geographicalCoordinates>
+                    </officialAddress>
+                </organisationDetails>
+            </shipper>
+            <receiver>
+                <gln>7640156959918</gln>
+                <address>
+                    <city>Schaffisheim</city>
+                    <countryCode>CH</countryCode>
+                    <name>Lagerhäuser Aarau</name>
+                    <pOBoxNumber />
+                    <postalCode>5503</postalCode>
+                    <state>Aargau</state>
+                    <streetAddressOne>Aegerten 1</streetAddressOne>
+                    <streetAddressTwo />
+                    <geographicalCoordinates>
+                        <latitude />
+                        <longitude />
+                    </geographicalCoordinates>
+                </address>
+                <contact>
+                    <contactTypeCode />
+                    <personName>Giuseppe Pizzo</personName>
+                    <departmentName />
+                    <jobTitle>Leiter Administration Frisch-Tiefkühllager</jobTitle>
+                    <communicationChannel>
+                        <communicationChannelCode>EMAIL</communicationChannelCode>
+                        <communicationValue>g.pizzo@la-aarau.ch</communicationValue>
+                    </communicationChannel>
+                    <afterHoursCommunicationChannel>
+                        <communicationChannelCode>TELEPHONE</communicationChannelCode>
+                        <communicationValue>079 740 69 47</communicationValue>
+                    </afterHoursCommunicationChannel>
+                </contact>
+                <organisationDetails>
+                    <organisationName>Lagerhäuser Aarau AG</organisationName>
+                    <officialAddress>
+                        <city>Aarau</city>
+                        <countryCode>CH</countryCode>
+                        <name>Lagerhäuser Aarau AG</name>
+                        <pOBoxNumber>Postfach 3302</pOBoxNumber>
+                        <postalCode>5001</postalCode>
+                        <state>Aargau</state>
+                        <streetAddressOne />
+                        <streetAddressTwo />
+                        <geographicalCoordinates>
+                            <latitude />
+                            <longitude />
+                        </geographicalCoordinates>
+                    </officialAddress>
+                </organisationDetails>
+            </receiver>
+            <buyer>
+                <gln>7609999021701</gln>
+                <address>
+                    <city>Basel</city>
+                    <countryCode>CH</countryCode>
+                    <name>GVFI International AG</name>
+                    <pOBoxNumber />
+                    <postalCode>4056</postalCode>
+                    <state>Basel Stadt</state>
+                    <streetAddressOne>Neudorfstrasse 90</streetAddressOne>
+                    <streetAddressTwo />
+                    <geographicalCoordinates>
+                        <latitude>47°34'27.7"</latitude>
+                        <longitude>7°33'58.5"</longitude>
+                    </geographicalCoordinates>
+                </address>
+                <contact>
+                    <contactTypeCode>CYC</contactTypeCode>
+                    <personName>Robert Kreidel</personName>
+                    <departmentName>Quality Management</departmentName>
+                    <jobTitle>Quality Manager</jobTitle>
+                    <communicationChannel>
+                        <communicationChannelCode>EMAIL</communicationChannelCode>
+                        <communicationValue>robert.kreidl@gvfi.ch</communicationValue>
+                    </communicationChannel>
+                    <afterHoursCommunicationChannel>
+                        <communicationChannelCode>TELEPHONE</communicationChannelCode>
+                        <communicationValue>+41 (0)61 264 50 51</communicationValue>
+                    </afterHoursCommunicationChannel>
+                </contact>
+                <organisationDetails>
+                    <organisationName>GVFI International AG</organisationName>
+                    <officialAddress>
+                        <city>Basel</city>
+                        <countryCode>CH</countryCode>
+                        <name>GVFI International AG</name>
+                        <pOBoxNumber />
+                        <postalCode>4056</postalCode>
+                        <state>Basel Stadt</state>
+                        <streetAddressOne>Neudorfstrasse 90</streetAddressOne>
+                        <streetAddressTwo />
+                        <geographicalCoordinates>
+                            <latitude>47°34'27.7"</latitude>
+                            <longitude>7°33'58.5"</longitude>
+                        </geographicalCoordinates>
+                    </officialAddress>
+                </organisationDetails>
+            </buyer>
+            <seller>
+                <gln>5012345000008</gln>
+                <address>
+                    <city>County Londonderry</city>
+                    <countryCode>IE</countryCode>
+                    <name>Foyle Meats Ltd</name>
+                    <pOBoxNumber />
+                    <postalCode>BT47 6TJ</postalCode>
+                    <state>Northern Ireland</state>
+                    <streetAddressOne />
+                    <streetAddressTwo />
+                    <geographicalCoordinates>
+                        <latitude />
+                        <longitude />
+                    </geographicalCoordinates>
+                </address>
+                <contact>
+                    <contactTypeCode />
+                    <personName />
+                    <departmentName />
+                    <jobTitle />
+                    <communicationChannel>
+                        <communicationChannelCode>EMAIL</communicationChannelCode>
+                        <communicationValue />
+                    </communicationChannel>
+                    <afterHoursCommunicationChannel>
+                        <communicationChannelCode>TELEPHONE</communicationChannelCode>
+                        <communicationValue />
+                    </afterHoursCommunicationChannel>
+                </contact>
+                <organisationDetails>
+                    <organisationName>Foyle Food Group Ltd</organisationName>
+                    <officialAddress>
+                        <city>OMAGH</city>
+                        <countryCode>BO</countryCode>
+                        <name>GVFI International AG</name>
+                        <pOBoxNumber />
+                        <postalCode>BT79 0BQ</postalCode>
+                        <state />
+                        <streetAddressOne>Omagh Meats Ltd</streetAddressOne>
+                        <streetAddressTwo>52 Doogary Road</streetAddressTwo>
+                        <geographicalCoordinates>
+                            <latitude />
+                            <longitude />
+                        </geographicalCoordinates>
+                    </officialAddress>
+                </organisationDetails>
+            </seller>
+            <inventoryLocation>
+                <gln>7640156959918</gln>
+            </inventoryLocation>
+            <deliveryTerms>
+                <incotermsCode>EXW</incotermsCode>
+                <deliveryTermsLocation>Schaffisheim</deliveryTermsLocation>
+            </deliveryTerms>
+            <transportCargoCharacteristics>
+                <totalGrossVolume measurementUnitCode="CBM" />
+                <totalGrossWeight measurementUnitCode="KGM" />
+                <totalTransportNetWeight measurementUnitCode="KGM" />
+                <declaredWeightForCustoms measurementUnitCode="KGM" />
+                <totalPackageQuantity />
+            </transportCargoCharacteristics>
+            <packageTotal>
+                <packageTypeCode />
+                <totalPackageQuantity />
+                <totalGrossVolume measurementUnitCode="KGM" />
+                <totalGrossWeight measurementUnitCode="KGM" />
+            </packageTotal>
+            <handlingInstruction>
+                <handlingInstructionCode>11</handlingInstructionCode>
+            </handlingInstruction>
+            <warehousingInboundStatusCode
+            >RECEIVING_IN_PROGRESS</warehousingInboundStatusCode>
+            <warehousingInboundExceptionCode />
+            <actualReceipt>
+                <logisticEventTypeCode>TERMINAL_ARRIVAL</logisticEventTypeCode>
+                <logisticEventDateTime>
+                    <date>2020-01-10</date>
+                    <time>08:00:00.000</time>
+                </logisticEventDateTime>
+            </actualReceipt>
+            <warehousingInboundInstruction>
+                <entityIdentification>WH/IN/00003</entityIdentification>
+            </warehousingInboundInstruction>
+            <warehousingInboundNotificationShipmentItem>
+                <lineItemNumber>1</lineItemNumber>
+                <note languageCode="de" />
+                <transactionalTradeItem>
+                    <gtin>14334399999999</gtin>
+                    <additionalTradeItemIdentification
+                        additionalTradeItemIdentificationTypeCode="MANUFACTURER_PART_NUMBER"
+                    >1153415656</additionalTradeItemIdentification>
+                    <transactionalItemData>
+                        <batchNumber>L0000275908</batchNumber>
+                        <bestBeforeDate>2020-06-01</bestBeforeDate>
+                        <countryOfOrigin>IE</countryOfOrigin>
+                        <itemExpirationDate />
+                        <productionDate />
+                        <sellByDate />
+                        <shelfLife />
+                    </transactionalItemData>
+                </transactionalTradeItem>
+                <logisticUnit>
+                    <sscc>311111110000123554</sscc>
+                    <grossWeight measurementUnitCode="KGM">522.91</grossWeight>
+                    <packageTypeCode>200</packageTypeCode>
+                    <tradeItemQuantity measurementUnitCode="CT">40</tradeItemQuantity>
+                    <unitMeasurement>
+                        <measurementType>DECLARED_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >476.50</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TARE_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >46.41</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TOTAL_GROSS_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >522.91</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>UNIT_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >476.50</measurementValue>
+                    </unitMeasurement>
+                </logisticUnit>
+                <logisticUnit>
+                    <sscc>311111110000123555</sscc>
+                    <grossWeight measurementUnitCode="KGM">519.79</grossWeight>
+                    <packageTypeCode>200</packageTypeCode>
+                    <tradeItemQuantity measurementUnitCode="CT">40</tradeItemQuantity>
+                    <unitMeasurement>
+                        <measurementType>DECLARED_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >486.20</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TARE_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >33.59</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TOTAL_GROSS_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >519.79</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>UNIT_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >486.20</measurementValue>
+                    </unitMeasurement>
+                </logisticUnit>
+                <logisticUnit>
+                    <sscc>311111110000123556</sscc>
+                    <grossWeight measurementUnitCode="KGM">521.05</grossWeight>
+                    <packageTypeCode>200</packageTypeCode>
+                    <tradeItemQuantity measurementUnitCode="CT">40</tradeItemQuantity>
+                    <unitMeasurement>
+                        <measurementType>DECLARED_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >472.41</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TARE_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >48.64</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TOTAL_GROSS_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >521.05</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>UNIT_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >472.41</measurementValue>
+                    </unitMeasurement>
+                </logisticUnit>
+                <logisticUnit>
+                    <sscc>311111110000123557</sscc>
+                    <grossWeight measurementUnitCode="KGM">542.92</grossWeight>
+                    <packageTypeCode>200</packageTypeCode>
+                    <tradeItemQuantity measurementUnitCode="CT">40</tradeItemQuantity>
+                    <unitMeasurement>
+                        <measurementType>DECLARED_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >491.51</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TARE_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >51.41</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TOTAL_GROSS_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >542.92</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>UNIT_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >491.51</measurementValue>
+                    </unitMeasurement>
+                </logisticUnit>
+                <logisticUnit>
+                    <sscc>311111110000123558</sscc>
+                    <grossWeight measurementUnitCode="KGM">500.11</grossWeight>
+                    <packageTypeCode>200</packageTypeCode>
+                    <tradeItemQuantity measurementUnitCode="CT">40</tradeItemQuantity>
+                    <unitMeasurement>
+                        <measurementType>DECLARED_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >467.97</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TARE_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >32.14</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TOTAL_GROSS_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >500.11</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>UNIT_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >467.97</measurementValue>
+                    </unitMeasurement>
+                </logisticUnit>
+                <logisticUnit>
+                    <sscc>311111110000123559</sscc>
+                    <grossWeight measurementUnitCode="KGM">490.22</grossWeight>
+                    <packageTypeCode>200</packageTypeCode>
+                    <tradeItemQuantity measurementUnitCode="CT">40</tradeItemQuantity>
+                    <unitMeasurement>
+                        <measurementType>DECLARED_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >456.52</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TARE_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >33.7</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TOTAL_GROSS_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >490.22</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>UNIT_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >456.52</measurementValue>
+                    </unitMeasurement>
+                </logisticUnit>
+                <logisticUnit>
+                    <sscc>311111110000123560</sscc>
+                    <grossWeight measurementUnitCode="KGM">513.52</grossWeight>
+                    <packageTypeCode>200</packageTypeCode>
+                    <tradeItemQuantity measurementUnitCode="CT">40</tradeItemQuantity>
+                    <unitMeasurement>
+                        <measurementType>DECLARED_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >477.61</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TARE_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >35.91</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TOTAL_GROSS_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >513.52</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>UNIT_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >477.61</measurementValue>
+                    </unitMeasurement>
+                </logisticUnit>
+                <logisticUnit>
+                    <sscc>311111110000123561</sscc>
+                    <grossWeight measurementUnitCode="KGM">528.29</grossWeight>
+                    <packageTypeCode>200</packageTypeCode>
+                    <tradeItemQuantity measurementUnitCode="CT">40</tradeItemQuantity>
+                    <unitMeasurement>
+                        <measurementType>DECLARED_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >491.48</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TARE_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >36.81</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TOTAL_GROSS_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >528.29</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>UNIT_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >491.48</measurementValue>
+                    </unitMeasurement>
+                </logisticUnit>
+                <logisticUnit>
+                    <sscc>311111110000123562</sscc>
+                    <grossWeight measurementUnitCode="KGM">531.92</grossWeight>
+                    <packageTypeCode>200</packageTypeCode>
+                    <tradeItemQuantity measurementUnitCode="CT">40</tradeItemQuantity>
+                    <unitMeasurement>
+                        <measurementType>DECLARED_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >489.40</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TARE_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >42.52</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TOTAL_GROSS_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >531.92</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>UNIT_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >489.40</measurementValue>
+                    </unitMeasurement>
+                </logisticUnit>
+                <logisticUnit>
+                    <sscc>311111110000123563</sscc>
+                    <grossWeight measurementUnitCode="KGM">542.2</grossWeight>
+                    <packageTypeCode>200</packageTypeCode>
+                    <tradeItemQuantity measurementUnitCode="CT">40</tradeItemQuantity>
+                    <unitMeasurement>
+                        <measurementType>DECLARED_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >499.57</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TARE_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >42.63</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TOTAL_GROSS_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >542.2</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>UNIT_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >499.57</measurementValue>
+                    </unitMeasurement>
+                </logisticUnit>
+                <inventoryLocation>
+                    <gln>7640156959918</gln>
+                    <additionalPartyIdentification
+                        additionalPartyIdentificationTypeCode="BUYER_ASSIGNED_IDENTIFIER_FOR_A_PARTY"
+                    >LGHA/Lager - frisch</additionalPartyIdentification>
+                </inventoryLocation>
+                <inventorySubLocation>
+                    <gln>7640156959918</gln>
+                    <glnExtension>verzollt</glnExtension>
+                </inventorySubLocation>
+                <transportCargoCharacteristics>
+                    <countryOfOriginCode>IE</countryOfOriginCode>
+                    <declaredWeightForCustoms
+                        measurementUnitCode="KGM"
+                    >5200</declaredWeightForCustoms>
+                </transportCargoCharacteristics>
+                <packageTotal>
+                    <packageTypeCode>CT</packageTypeCode>
+                    <totalPackageQuantity>400</totalPackageQuantity>
+                    <totalGrossWeight
+                        measurementUnitCode="KGM"
+                    >4981.77</totalGrossWeight>
+                </packageTotal>
+                <inventoryDutyFeeTaxStatus>
+                    <dutyFeeTaxTypeCode>IMP</dutyFeeTaxTypeCode>
+                    <dutyFeeTaxDescription languageCode="de" />
+                    <customsWarehouseStatusCode
+                    >FREE_CIRCULATION</customsWarehouseStatusCode>
+                </inventoryDutyFeeTaxStatus>
+                <actualReceiptQuantity
+                    measurementUnitCode="CT"
+                >400</actualReceiptQuantity>
+                <actualAcceptedQuantity
+                    measurementUnitCode="CT"
+                >400</actualAcceptedQuantity>
+                <plannedReceiptQuantity
+                    measurementUnitCode="CT"
+                >400</plannedReceiptQuantity>
+                <inboundQuantityVariance>
+                    <varianceQuantity measurementUnitCode="CT">0</varianceQuantity>
+                    <varianceQuantity measurementUnitCode="KGM">9.2</varianceQuantity>
+                </inboundQuantityVariance>
+                <avpList>
+                    <eComStringAttributeValuePairList
+                        attributeName="tareCTWeightKGM"
+                    >0.900</eComStringAttributeValuePairList>
+                    <eComStringAttributeValuePairList
+                        attributeName="actualReceiptQuantity_KGM"
+                    >4809.2</eComStringAttributeValuePairList>
+                    <eComStringAttributeValuePairList
+                        attributeName="actualAcceptedQuantity_KGM"
+                    >4809.2</eComStringAttributeValuePairList>
+                    <eComStringAttributeValuePairList
+                        attributeName="plannedReceiptQuantity_KGM"
+                    >4800</eComStringAttributeValuePairList>
+                </avpList>
+            </warehousingInboundNotificationShipmentItem>
+            <warehousingInboundNotificationShipmentItem>
+                <lineItemNumber>2</lineItemNumber>
+                <note
+                    languageCode="de"
+                >HQ Beef Angus Entrecôtes Mittels. frisch IE BLACKMO IE</note>
+                <transactionalTradeItem>
+                    <gtin>14334399999999</gtin>
+                    <additionalTradeItemIdentification
+                        additionalTradeItemIdentificationTypeCode="MANUFACTURER_PART_NUMBER"
+                    >1153415656</additionalTradeItemIdentification>
+                    <transactionalItemData>
+                        <batchNumber>L0000275908</batchNumber>
+                        <bestBeforeDate>2020-06-01</bestBeforeDate>
+                        <countryOfOrigin>IE</countryOfOrigin>
+                        <itemExpirationDate />
+                        <productionDate />
+                        <sellByDate />
+                        <shelfLife />
+                    </transactionalItemData>
+                </transactionalTradeItem>
+                <inventoryLocation>
+                    <gln>7640156959918</gln>
+                    <additionalPartyIdentification
+                        additionalPartyIdentificationTypeCode="BUYER_ASSIGNED_IDENTIFIER_FOR_A_PARTY"
+                    >LGHA/Lager - frisch</additionalPartyIdentification>
+                </inventoryLocation>
+                <inventorySubLocation>
+                    <gln>7640156959918</gln>
+                    <glnExtension>unverzollt</glnExtension>
+                </inventorySubLocation>
+                <transportCargoCharacteristics>
+                    <countryOfOriginCode>IE</countryOfOriginCode>
+                    <declaredWeightForCustoms
+                        measurementUnitCode="KGM"
+                    >0</declaredWeightForCustoms>
+                </transportCargoCharacteristics>
+                <packageTotal>
+                    <packageTypeCode>CT</packageTypeCode>
+                    <totalPackageQuantity />
+                    <totalGrossWeight measurementUnitCode="KGM" />
+                </packageTotal>
+                <inventoryDutyFeeTaxStatus>
+                    <dutyFeeTaxTypeCode>IMP</dutyFeeTaxTypeCode>
+                    <dutyFeeTaxDescription languageCode="de" />
+                    <customsWarehouseStatusCode>BONDED</customsWarehouseStatusCode>
+                </inventoryDutyFeeTaxStatus>
+                <actualReceiptQuantity measurementUnitCode="CT" />
+                <actualAcceptedQuantity measurementUnitCode="CT" />
+                <plannedReceiptQuantity
+                    measurementUnitCode="CT"
+                >10</plannedReceiptQuantity>
+                <inboundQuantityVariance>
+                    <varianceQuantity measurementUnitCode="CT">0</varianceQuantity>
+                </inboundQuantityVariance>
+                <avpList>
+                    <eComStringAttributeValuePairList attributeName="tareCTWeightKGM" />
+                    <eComStringAttributeValuePairList
+                        attributeName="actualReceiptQuantity_KGM"
+                    />
+                    <eComStringAttributeValuePairList
+                        attributeName="actualAcceptedQuantity_KGM"
+                    />
+                    <eComStringAttributeValuePairList
+                        attributeName="plannedReceiptQuantity_KGM"
+                    >120</eComStringAttributeValuePairList>
+                </avpList>
+            </warehousingInboundNotificationShipmentItem>
+            <warehousingInboundNotificationShipmentItem>
+                <lineItemNumber>3</lineItemNumber>
+                <note
+                    languageCode="de"
+                >HQ Beef Angus Entrecôtes frisch GB BLACKMO</note>
+                <transactionalTradeItem>
+                    <gtin>14334398999999</gtin>
+                    <additionalTradeItemIdentification
+                        additionalTradeItemIdentificationTypeCode="MANUFACTURER_PART_NUMBER"
+                    >11534156586</additionalTradeItemIdentification>
+                    <transactionalItemData>
+                        <batchNumber>L0000275910</batchNumber>
+                        <bestBeforeDate>2020-06-01</bestBeforeDate>
+                        <countryOfOrigin>IE</countryOfOrigin>
+                        <itemExpirationDate />
+                        <productionDate />
+                        <sellByDate />
+                        <shelfLife />
+                    </transactionalItemData>
+                </transactionalTradeItem>
+                <logisticUnit>
+                    <sscc>311111110000123593</sscc>
+                    <grossWeight measurementUnitCode="KGM">162.2</grossWeight>
+                    <packageTypeCode>200</packageTypeCode>
+                    <tradeItemQuantity measurementUnitCode="CT">12</tradeItemQuantity>
+                    <unitMeasurement>
+                        <measurementType>DECLARED_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >138.57</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TARE_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >23.63</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>TOTAL_GROSS_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >162.2</measurementValue>
+                    </unitMeasurement>
+                    <unitMeasurement>
+                        <measurementType>UNIT_NET_WEIGHT</measurementType>
+                        <measurementValue
+                            measurementUnitCode="KGM"
+                        >138.57</measurementValue>
+                    </unitMeasurement>
+                </logisticUnit>
+                <inventoryLocation>
+                    <gln>7640156959918</gln>
+                    <additionalPartyIdentification
+                        additionalPartyIdentificationTypeCode="BUYER_ASSIGNED_IDENTIFIER_FOR_A_PARTY"
+                    >LGHA/Lager - frisch</additionalPartyIdentification>
+                </inventoryLocation>
+                <inventorySubLocation>
+                    <gln>7640156959918</gln>
+                    <glnExtension>verzollt</glnExtension>
+                </inventorySubLocation>
+                <transportCargoCharacteristics>
+                    <countryOfOriginCode>IE</countryOfOriginCode>
+                    <declaredWeightForCustoms
+                        measurementUnitCode="KGM"
+                    >140</declaredWeightForCustoms>
+                </transportCargoCharacteristics>
+                <packageTotal>
+                    <packageTypeCode>CT</packageTypeCode>
+                    <totalPackageQuantity>12</totalPackageQuantity>
+                    <totalGrossWeight
+                        measurementUnitCode="KGM"
+                    >139.31</totalGrossWeight>
+                </packageTotal>
+                <inventoryDutyFeeTaxStatus>
+                    <dutyFeeTaxTypeCode>IMP</dutyFeeTaxTypeCode>
+                    <dutyFeeTaxDescription languageCode="de" />
+                    <customsWarehouseStatusCode
+                    >FREE_CIRCULATION</customsWarehouseStatusCode>
+                </inventoryDutyFeeTaxStatus>
+                <actualReceiptQuantity
+                    measurementUnitCode="CT"
+                >12</actualReceiptQuantity>
+                <actualAcceptedQuantity
+                    measurementUnitCode="CT"
+                >12</actualAcceptedQuantity>
+                <plannedReceiptQuantity
+                    measurementUnitCode="CT"
+                >12</plannedReceiptQuantity>
+                <inboundQuantityVariance>
+                    <varianceQuantity measurementUnitCode="CT">0</varianceQuantity>
+                    <varianceQuantity measurementUnitCode="KGM">-1.43</varianceQuantity>
+                </inboundQuantityVariance>
+                <avpList>
+                    <eComStringAttributeValuePairList
+                        attributeName="tareCTWeightKGM"
+                    >1.127</eComStringAttributeValuePairList>
+                    <eComStringAttributeValuePairList
+                        attributeName="actualReceiptQuantity_KGM"
+                    >138.57</eComStringAttributeValuePairList>
+                    <eComStringAttributeValuePairList
+                        attributeName="actualAcceptedQuantity_KGM"
+                    >138.57</eComStringAttributeValuePairList>
+                    <eComStringAttributeValuePairList
+                        attributeName="plannedReceiptQuantity_KGM"
+                    >140</eComStringAttributeValuePairList>
+                </avpList>
+            </warehousingInboundNotificationShipmentItem>
+        </warehousingInboundNotificationShipment>
+    </warehousingInboundNotification>
+</warehousing_inbound_notification:warehousingInboundNotificationMessage>
