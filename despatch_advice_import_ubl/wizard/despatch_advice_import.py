@@ -20,17 +20,21 @@ class DespatchAdviceImport(models.TransientModel):
         if xml_root.tag == start_tag + "DespatchAdvice-2}DespatchAdvice":
             return self.parse_ubl_despatch_advice(xml_root)
         else:
-            return super(DespatchAdviceImport, self).parse_xml_despatch_advice(xml_root)
-
+            return super(DespatchAdviceImport, self).parse_xml_despatch_advice(
+                xml_root
+            )
 
     @api.model
     def parse_ubl_despatch_advice(self, xml_root):
         ns = xml_root.nsmap
         main_xmlns = ns.pop("DespatchAdvice")
         ns["main"] = main_xmlns
-        date_xpath = xml_root.xpath("/main:DespatchAdvice/cbc:IssueDate", namespaces=ns)
+        date_xpath = xml_root.xpath(
+            "/main:DespatchAdvice/cbc:IssueDate", namespaces=ns
+        )
         estimated_delivery_date_xpath = xml_root.xpath(
-            "/main:DespatchAdvice/cac:Shipment/cac:Delivery/cac:EstimatedDeliveryPeriod/cbc:EndDate",
+            "/main:DespatchAdvice/cac:Shipment/"
+            "cac:Delivery/cac:EstimatedDeliveryPeriod/cbc:EndDate",
             namespaces=ns,
         )
         order_reference_xpath = xml_root.xpath(
@@ -40,13 +44,15 @@ class DespatchAdviceImport(models.TransientModel):
             "/main:DespatchAdvice/cbc:DespatchAdviceTypeCode", namespaces=ns
         )
         supplier_xpath = xml_root.xpath(
-            "/main:DespatchAdvice/cac:DespatchSupplierParty/cac:Party", namespaces=ns
+            "/main:DespatchAdvice/cac:DespatchSupplierParty/cac:Party",
+            namespaces=ns,
         )
         supplier_dict = self.ubl_parse_party(supplier_xpath[0], ns)
         # We only take the "official references" for supplier_dict
         supplier_dict = {"vat": supplier_dict.get("vat")}
         customer_xpath = xml_root.xpath(
-            "/main:DespatchAdvice/cac:DeliveryCustomerParty/cac:Party", namespaces=ns
+            "/main:DespatchAdvice/cac:DeliveryCustomerParty/cac:Party",
+            namespaces=ns,
         )
         customer_dict = self.ubl_parse_party(customer_xpath[0], ns)
 
@@ -61,7 +67,9 @@ class DespatchAdviceImport(models.TransientModel):
             "ref": order_reference_xpath[0].text,
             "supplier": supplier_dict,
             "company": customer_dict,
-            "despatch_advice_type_code": despatch_advice_type_code_xpath[0].text,
+            "despatch_advice_type_code": despatch_advice_type_code_xpath[
+                0
+            ].text,
             "date": len(date_xpath) and date_xpath[0].text,
             "estimated_delivery_date": len(estimated_delivery_date_xpath)
             and estimated_delivery_date_xpath[0].text,
@@ -74,7 +82,9 @@ class DespatchAdviceImport(models.TransientModel):
         line_id_xpath = line.xpath("cbc:ID", namespaces=ns)
         qty_xpath = line.xpath("cbc:DeliveredQuantity", namespaces=ns)
         qty = float(qty_xpath[0].text)
-        backorder_qty_xpath = line.xpath("cbc:OutstandingQuantity", namespaces=ns)
+        backorder_qty_xpath = line.xpath(
+            "cbc:OutstandingQuantity", namespaces=ns
+        )
         backorder_qty = None
         if backorder_qty_xpath and len(backorder_qty_xpath):
             backorder_qty = float(backorder_qty_xpath[0].text)
@@ -97,7 +107,9 @@ class DespatchAdviceImport(models.TransientModel):
             "cac:PartyLegalEntity/cbc:RegistrationName", namespaces=ns
         )
 
-        vat_xpath = party_node.xpath("cac:PartyIdentification/cbc:ID", namespaces=ns)
+        vat_xpath = party_node.xpath(
+            "cac:PartyIdentification/cbc:ID", namespaces=ns
+        )
 
         partner_dict = {
             "vat": vat_xpath[0].text

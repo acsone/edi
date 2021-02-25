@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright 2020 ACSONE SA/NV
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
-
 <odoo>
-
     <record id="despatch_advice_import_form_view" model="ir.ui.view">
         <field name="name">despatch.advice.import (in purchase_order_import)</field>
         <field name="model">despatch.advice.import</field>
@@ -42,5 +40,4 @@
         <field name="action" ref="despatch_advice_import_action"/>
         <field name="sequence" eval="99"/>
     </record>
-
 </odoo>
