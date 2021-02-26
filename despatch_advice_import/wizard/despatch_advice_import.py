@@ -27,10 +27,11 @@ class DespatchAdviceImport(models.TransientModel):
     )
     filename = fields.Char(string="Filename")
 
-    # Format of parsed despatch advice
+    # #Format of parsed despatch advice
     # {
-    # 'ref': 'PO01234' # the buyer party identifier
-    #                  # (specified into the Order document -> po's name)
+    # # the buyer party identifier
+    # # (specified into the Order document -> po's name)
+    # 'ref': 'PO01234'
     # 'despatch_advice_type_code': ' scheduled | delivered'
     # 'supplier': {'vat': 'FR25499247138'},
     # 'company': {'vat': 'FR12123456789'}, # Only used to check we are not
@@ -45,7 +46,7 @@ class DespatchAdviceImport(models.TransientModel):
     #                                 # the backorder qty will be delivered
     #                                 # in a next shipping
     #    }]
-    
+
     @api.model
     def parse_despatch_advice(self, document, filename):
         if not document:
@@ -62,7 +63,10 @@ class DespatchAdviceImport(models.TransientModel):
                 raise UserError(_("This XML file is not XML-compliant"))
             if logger.isEnabledFor(logging.DEBUG):
                 pretty_xml_string = etree.tostring(
-                    xml_root, pretty_print=True, encoding="UTF-8", xml_declaration=True
+                    xml_root,
+                    pretty_print=True,
+                    encoding="UTF-8",
+                    xml_declaration=True,
                 )
                 logger.debug("Starting to import the following XML file:")
                 logger.debug(pretty_xml_string)
@@ -89,7 +93,8 @@ class DespatchAdviceImport(models.TransientModel):
             and not self._context.get("edi_skip_company_check")
         ):
             self.env["business.document.import"]._check_company(
-                parsed_despatch_advice["company"], parsed_despatch_advice["chatter_msg"]
+                parsed_despatch_advice["company"],
+                parsed_despatch_advice["chatter_msg"],
             )
         return parsed_despatch_advice
 
@@ -157,7 +162,9 @@ class DespatchAdviceImport(models.TransientModel):
                 elif not line_info["qty"] and not line_info["backorder_qty"]:
                     self._process_rejected(stock_moves, parsed_order_document)
                 else:
-                    self._process_conditional(stock_moves, parsed_order_document, line_info)
+                    self._process_conditional(
+                        stock_moves, parsed_order_document, line_info
+                    )
 
     @api.model
     def _process_rejected(self, stock_moves, parsed_order_document):
@@ -196,27 +203,19 @@ class DespatchAdviceImport(models.TransientModel):
 
         if float_compare(qty, moves_qty, precision_digits=precision) >= 0:
             return
-     
+
         # confirmed qty < ordered qty
         move_ids_to_backorder = []
         move_ids_to_cancel = []
         for move in moves:
             self._check_picking_status(move.picking_id)
-            if (
-                float_compare(
-                    qty, move.product_qty, precision_digits=precision
-                )
-                >= 0
-            ):
+            if float_compare(qty, move.product_qty, precision_digits=precision) >= 0:
                 # qty planned => qty into the stock move: Keep it
                 qty -= move.product_qty
                 continue
             if (
                 qty
-                and float_compare(
-                    qty, move.product_qty, precision_digits=precision
-                )
-                < 0
+                and float_compare(qty, move.product_qty, precision_digits=precision) < 0
             ):
                 # qty planned < qty into the stock move: Split it
                 new_move_id = move.split(move.product_qty - qty)
@@ -238,25 +237,19 @@ class DespatchAdviceImport(models.TransientModel):
             ):
                 # backorder_qty < qty into the move -> split the move
                 # anf cancel remaining qty
-                move_ids_to_cancel.append(
-                    move.split(move.product_qty - backorder_qty)
-                )
+                move_ids_to_cancel.append(move.split(move.product_qty - backorder_qty))
 
             backorder_qty -= move.product_qty
             move_ids_to_backorder.append(move.id)
         # move backorder moves to a backorder
         if move_ids_to_backorder:
-            moves_to_backorder = self.env["stock.move"].browse(
-                move_ids_to_backorder
-            )
+            moves_to_backorder = self.env["stock.move"].browse(move_ids_to_backorder)
             self._add_moves_to_backorder(moves_to_backorder)
         # cancel moves to cancel
         if move_ids_to_cancel:
             moves_to_cancel = self.env["stock.move"].browse(move_ids_to_cancel)
             moves_to_cancel.action_cancel()
-            moves_to_cancel.write(
-                {"note": _("No backorder planned by the supplier.")}
-            )
+            moves_to_cancel.write({"note": _("No backorder planned by the supplier.")})
         # Reset Operations
         moves[0].picking_id.do_prepare_partial()
 
