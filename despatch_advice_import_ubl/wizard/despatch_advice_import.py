@@ -36,6 +36,7 @@ class DespatchAdviceImport(models.TransientModel):
         order_reference_xpath = xml_root.xpath(
             "/main:DespatchAdvice/cac:OrderReference/cbc:ID", namespaces=ns
         )
+
         despatch_advice_type_code_xpath = xml_root.xpath(
             "/main:DespatchAdvice/cbc:DespatchAdviceTypeCode", namespaces=ns
         )
@@ -58,7 +59,7 @@ class DespatchAdviceImport(models.TransientModel):
         for line in lines_xpath:
             res_lines.append(self.parse_ubl_despatch_advice_line(line, ns))
         res = {
-            "ref": order_reference_xpath[0].text,
+            "ref": order_reference_xpath[0].text if order_reference_xpath else '',
             "supplier": supplier_dict,
             "company": customer_dict,
             "despatch_advice_type_code": despatch_advice_type_code_xpath[0].text,
@@ -82,8 +83,13 @@ class DespatchAdviceImport(models.TransientModel):
         product_ref_xpath = line.xpath(
             "cac:Item/cac:SellersItemIdentification/cbc:ID", namespaces=ns
         )
+
+        order_reference_xpath = line.xpath(
+            "cac:OrderLineReference/cac:OrderReference/cbc:ID", namespaces=ns
+        )
         res_line = {
             "line_id": line_id_xpath[0].text,
+            "ref":order_reference_xpath[0].text if order_reference_xpath else '',
             "qty": qty,
             "product_ref": product_ref_xpath[0].text,
             "uom": {"unece_code": qty_xpath[0].attrib.get("unitCode")},

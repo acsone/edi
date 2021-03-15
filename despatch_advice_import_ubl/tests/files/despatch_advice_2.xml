@@ -4,7 +4,6 @@
   <cbc:IssueDate>2020-11-16</cbc:IssueDate>
   <cbc:DespatchAdviceTypeCode>scheduled</cbc:DespatchAdviceTypeCode>
   <cac:OrderReference>
-    <cbc:ID>{order_id}</cbc:ID>
   </cac:OrderReference>
   <cac:DespatchSupplierParty>
     <cac:Party>
@@ -48,7 +47,7 @@
     <cbc:OutstandingQuantity unitCode="BG">{line_1_backorder_qty}</cbc:OutstandingQuantity>
     <cac:OrderLineReference>
       <cac:OrderReference>
-        <cbc:ID>{order_id}</cbc:ID>
+        <cbc:ID>{line_1_order_id}</cbc:ID>
       </cac:OrderReference>
     </cac:OrderLineReference>
     <cac:Item>
@@ -70,7 +69,7 @@
     <cac:OrderLineReference>
       <cbc:LineID>331971</cbc:LineID>
       <cac:OrderReference>
-        <cbc:ID>{order_id}</cbc:ID>
+        <cbc:ID>{line_2_order_id}</cbc:ID>
       </cac:OrderReference>
     </cac:OrderLineReference>
     <cac:Item>

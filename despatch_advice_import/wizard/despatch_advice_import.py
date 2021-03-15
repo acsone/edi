@@ -136,28 +136,34 @@ class DespatchAdviceImport(models.TransientModel):
     def process_data(self, parsed_order_document):
         bdio = self.env["business.document.import"]
         po_name = parsed_order_document.get("ref")
-        order = self.env["purchase.order"].search([("name", "=", po_name)])
 
-        if not order:
-            bdio.user_error_wrap(_("No purchase order found for name %s.") % po_name)
+        lines_doc = parsed_order_document.get("lines")
+        lines_by_id = {int(line["line_id"]): line for line in lines_doc}
 
-        lines = parsed_order_document.get("lines")
-        lines_by_id = {int(line["line_id"]): line for line in lines}
+        lines = self.env["purchase.order.line"].browse(lines_by_id.keys())
 
-        for line_id, line_info in lines_by_id.iteritems():
-            line = order.order_line.search([("id", "=", line_id)])
-            if line:
-                stock_moves = line.move_ids.filtered(
-                    lambda x: x.state not in ("cancel", "done")
-                )
-                moves_qty = sum(stock_moves.mapped("product_qty"))
+        for line in lines:
+            order = line.order_id
+            line_info = lines_by_id.get(line.id)
 
-                if line_info["qty"] == moves_qty:
-                    self._process_accepted(stock_moves, parsed_order_document)
-                elif not line_info["qty"] and not line_info["backorder_qty"]:
-                    self._process_rejected(stock_moves, parsed_order_document)
-                else:
-                    self._process_conditional(stock_moves, parsed_order_document, line_info)
+            if line_info["ref"]:
+                if order.name != line_info["ref"]:
+                    bdio.user_error_wrap(_("No purchase order found for name %s.") % line_info["ref"])
+            else:
+                if order.name != po_name:
+                    bdio.user_error_wrap(_("No purchase order found for name %s.") % po_name)
+            
+            stock_moves = line.move_ids.filtered(
+                lambda x: x.state not in ("cancel", "done")
+            )
+            moves_qty = sum(stock_moves.mapped("product_qty"))
+
+            if line_info["qty"] == moves_qty:
+                self._process_accepted(stock_moves, parsed_order_document)
+            elif not line_info["qty"] and not line_info["backorder_qty"]:
+                self._process_rejected(stock_moves, parsed_order_document)
+            else:
+                self._process_conditional(stock_moves, parsed_order_document, line_info)
 
     @api.model
     def _process_rejected(self, stock_moves, parsed_order_document):

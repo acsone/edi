@@ -109,6 +109,7 @@ class TestDespatchAdviceImport(SavepointCase):
             "backorder_qty": backorder_qty,
             "qty": qty if qty is not None else order_line.product_qty,
             "line_id": order_line.id,
+            "ref": order_line.order_id.name,
             "product_ref": order_line.product_id.default_code,
             "uom": {"unece_code": order_line.product_uom.unece_code},
         }
@@ -149,6 +150,11 @@ class TestDespatchAdviceImport(SavepointCase):
         """
         data = self._get_base_data()
         data["ref"] = "123456"
+        data["lines"] = [
+            self.order_line_to_data(self.line1)
+        ]
+        data["lines"][0]["ref"] = "123456"
+
         with self.assertRaises(UserError) as ue:
             self.DespatchAdviceImport.process_data(data)
         self.assertEqual(
