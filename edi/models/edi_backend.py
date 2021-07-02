@@ -41,16 +41,16 @@ class EDIBackend(models.Model):
     def _get_component(self, exchange_record, key, work_ctx=None):
         # TODO: maybe lookup for an `exchange_record.model` specific component 1st
         candidates = self._get_component_usage_candidates(exchange_record, key)
-        work_ctx = {"exchange_record": exchange_record}
-        work_ctx.update(work_ctx or {})
+        current_work_ctx = {"exchange_record": exchange_record}
+        current_work_ctx.update(work_ctx or {})
         # Inject work context from advanced settings if available
         record_conf = exchange_record.type_id._component_conf_for(exchange_record, key)
-        work_ctx.update(record_conf.get("work_ctx", {}))
+        current_work_ctx.update(record_conf.get("work_ctx", {}))
         match_attrs = self._component_match_attrs(exchange_record, key)
         # Model is not granted to be there
         model = exchange_record.model or self._name
         return self._find_component(
-            model, candidates, work_ctx=work_ctx, **match_attrs,
+            model, candidates, work_ctx=current_work_ctx, **match_attrs,
         )
 
     def _component_match_attrs(self, exchange_record, key):
@@ -234,6 +234,9 @@ class EDIBackend(models.Model):
     def _validate_data(self, exchange_record, value=None, **kw):
         component = self._get_component(exchange_record, "validate")
         if component:
+            value = value or exchange_record.exchange_file
+            if isinstance(value, bytes):
+                value = base64.b64decode(value).decode()
             return component.validate(value)
 
     def exchange_send(self, exchange_record):
@@ -399,7 +402,7 @@ class EDIBackend(models.Model):
             return False
         state = exchange_record.edi_exchange_state
         error = False
-        message = None
+        notification_handler = None
         try:
             self._exchange_process(exchange_record)
         except self._swallable_exceptions() as err:
@@ -407,10 +410,10 @@ class EDIBackend(models.Model):
                 raise
             error = repr(err)
             state = "input_processed_error"
-            message = exchange_record._exchange_status_message("process_ko")
+            notification_handler = exchange_record._notify_error
             res = False
         else:
-            message = exchange_record._exchange_status_message("process_ok")
+            notification_handler = exchange_record._notify_done
             error = None
             state = "input_processed"
             res = True
@@ -424,8 +427,8 @@ class EDIBackend(models.Model):
                     "exchanged_on": fields.Datetime.now(),
                 }
             )
-            if message:
-                exchange_record._notify_related_record(message)
+            if notification_handler:
+                notification_handler()
         return res
 
     def _exchange_process(self, exchange_record):
@@ -564,7 +567,10 @@ class EDIBackend(models.Model):
 
     def exchange_create_ack_record(self, exchange_record):
         ack_type = exchange_record.type_id.ack_type_id
-        values = {"parent_id": exchange_record.id}
+        # Nothing could pass the default state "new" to "X_pending"
+        # so for auto-file generated, we have to force it
+        state = "{direction}_pending".format(direction=ack_type.direction)
+        values = {"parent_id": exchange_record.id, "edi_exchange_state": state}
         return self.create_record(ack_type.code, values)
 
     def _find_existing_exchange_records(
