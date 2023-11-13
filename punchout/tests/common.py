@@ -43,4 +43,6 @@ class TestPunchoutCommon(SavepointCase):
         return content.decode()
 
     def _store_response(self, cxml_string):
-        return self.request_model._store_punchout_request(self.backend.id, cxml_string,)
+        return self.request_model._store_punchout_session_response(
+            self.backend.id, cxml_string,
+        )
