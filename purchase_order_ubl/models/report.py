@@ -16,9 +16,12 @@ class IrActionsReport(models.Model):
             report_sudo = self._get_report(report_ref)
             records = self.env[report_sudo.model].browse(res_ids)
             for record in records:
-                collected_streams[record.id]["stream"] = record.add_xml_in_pdf_buffer(
-                    collected_streams[record.id]["stream"]
-                )
+                if record.is_ubl_xml_to_embed_in_purchase_order():
+                    collected_streams[record.id][
+                        "stream"
+                    ] = record.add_xml_in_pdf_buffer(
+                        collected_streams[record.id]["stream"]
+                    )
         return collected_streams
 
     def _render_qweb_pdf(self, report_ref, res_ids=None, data=None):
