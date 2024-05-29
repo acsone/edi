@@ -71,7 +71,11 @@ class PunchoutBackend(models.Model):
     dtd_filename = fields.Char(
         groups="base.group_system",
     )
-    state = fields.Selection(selection="_selection_state", default="draft")
+    state = fields.Selection(
+        selection="_selection_state",
+        default="draft",
+        readonly=True,
+    )
     session_duration = fields.Integer(
         string="Maximum session duration",
         default=7200,
