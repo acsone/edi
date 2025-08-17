@@ -45,16 +45,15 @@ class AccountMove(models.Model):
         doc_id.text = self.name
         issue_date = etree.SubElement(parent_node, ns["cbc"] + "IssueDate")
         issue_date.text = self.invoice_date.strftime("%Y-%m-%d")
-        if (
-            self.invoice_date_due
-            and version >= "2.1"
-            and self.move_type == "out_invoice"
-        ):
-            due_date = etree.SubElement(parent_node, ns["cbc"] + "DueDate")
-            due_date.text = fields.Date.to_string(self.invoice_date_due)
         if self.move_type in ("out_invoice", "in_invoice"):
+            if self.invoice_date_due and version >= "2.1" and self.amount_residual > 0:
+                due_date = etree.SubElement(parent_node, ns["cbc"] + "DueDate")
+                due_date.text = fields.Date.to_string(self.invoice_date_due)
             type_code = etree.SubElement(parent_node, ns["cbc"] + "InvoiceTypeCode")
         elif self.move_type in ("out_refund", "in_refund"):
+            if self.invoice_date_due and version >= "2.1" and self.amount_residual > 0:
+                due_date = etree.SubElement(parent_node, ns["cbc"] + "PaymentDueDate")
+                due_date.text = fields.Date.to_string(self.invoice_date_due)
             type_code = etree.SubElement(parent_node, ns["cbc"] + "CreditNoteTypeCode")
         type_code.text = self._ubl_get_invoice_type_code()
         if self.narration:
