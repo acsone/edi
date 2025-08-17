@@ -445,10 +445,12 @@ class BaseUbl(models.AbstractModel):
                     schemeID="0160",  # GTIN = 0160
                 )
                 std_identification_id.text = product.barcode
-            # I'm not 100% sure, but it seems that ClassifiedTaxCategory
-            # contains the taxes of the product without taking into
-            # account the fiscal position
-            if type_ == "sale":
+            if taxes is not None:
+                pass
+                # Provide the line taxes to this method otherwise it will
+                # fallback on the product taxes without taking into account the
+                # fiscal position
+            elif type_ == "sale":
                 taxes = product.taxes_id.filtered(
                     lambda t: t.unece_type_id.code == "VAT"
                 )
