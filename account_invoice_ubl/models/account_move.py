@@ -339,7 +339,10 @@ class AccountMove(models.Model):
             iline.product_id,
             line_root,
             ns,
-            type_="sale",
+            type_="sale" if not self.self_billing else "purchase",
+            seller=None if not self.self_billing else self.partner_id,
+            customer=self.partner_id if not self.self_billing else None,
+            taxes=iline.tax_ids,
             version=version,
         )
         price_node = etree.SubElement(line_root, ns["cac"] + "Price")
