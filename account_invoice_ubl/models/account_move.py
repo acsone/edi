@@ -10,8 +10,9 @@ import logging
 
 from lxml import etree
 
-from odoo import fields, models
-from odoo.tools import float_is_zero, float_round
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+from odoo.tools import float_compare, float_is_zero, float_round
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +20,22 @@ logger = logging.getLogger(__name__)
 class AccountMove(models.Model):
     _name = "account.move"
     _inherit = ["account.move", "base.ubl"]
+
+    self_billing = fields.Boolean()
+    can_generate_ubl = fields.Boolean(compute="_compute_can_generate_ubl")
+
+    @api.depends("state", "move_type", "self_billing")
+    def _compute_can_generate_ubl(self):
+        for inv in self:
+            if inv.state != "posted":
+                inv.can_generate_ubl = False
+                continue
+            if inv.move_type in ("out_invoice", "out_refund"):
+                inv.can_generate_ubl = True
+            elif inv.move_type in ("in_invoice", "in_refund") and inv.self_billing:
+                inv.can_generate_ubl = True
+            else:
+                inv.can_generate_ubl = False
 
     def _ubl_add_header(self, parent_node, ns, version="2.1"):
         self.ensure_one()
@@ -28,16 +45,12 @@ class AccountMove(models.Model):
         doc_id.text = self.name
         issue_date = etree.SubElement(parent_node, ns["cbc"] + "IssueDate")
         issue_date.text = self.invoice_date.strftime("%Y-%m-%d")
-        if (
-            self.invoice_date_due
-            and version >= "2.1"
-            and self.move_type == "out_invoice"
-        ):
+        if self.invoice_date_due and version >= "2.1":
             due_date = etree.SubElement(parent_node, ns["cbc"] + "DueDate")
             due_date.text = fields.Date.to_string(self.invoice_date_due)
-        if self.move_type == "out_invoice":
+        if self.move_type in ("out_invoice", "in_invoice"):
             type_code = etree.SubElement(parent_node, ns["cbc"] + "InvoiceTypeCode")
-        elif self.move_type == "out_refund":
+        elif self.move_type in ("out_refund", "in_refund"):
             type_code = etree.SubElement(parent_node, ns["cbc"] + "CreditNoteTypeCode")
         type_code.text = self._ubl_get_invoice_type_code()
         if self.narration:
@@ -57,14 +70,27 @@ class AccountMove(models.Model):
             return "380"
         elif self.move_type == "out_refund":
             return "381"
+        elif self.move_type == "in_invoice":
+            return "389"  # self-billed invoice
+        elif self.move_type == "in_refund":
+            return "261"  # self-billed credit note
 
     def _ubl_get_order_reference(self):
-        """An identifier of a referenced purchase order, issued by the Buyer"""
-        return self.ref or "/"
+        """An identifier of a referenced purchase order"""
+        if self.move_type in ("out_invoice", "out_refund"):
+            # reference issued by the Buyer
+            return self.ref or "/"
+        elif self.move_type in ("in_invoice", "in_refund"):
+            # self-billing case: our PO number
+            return self.invoice_origin
+        return False
 
     def _ubl_get_salesorder_reference(self):
-        """An identifier of a referenced sales order, issued by the Seller"""
-        return self.invoice_origin
+        """An identifier of a referenced sales order"""
+        if self.move_type in ("out_invoice", "out_refund"):
+            # our SO number
+            return self.invoice_origin
+        return False
 
     def _ubl_add_order_reference(self, parent_node, ns, version="2.1"):
         self.ensure_one()
@@ -80,7 +106,11 @@ class AccountMove(models.Model):
                 node_salesorderid.text = seller_ref
 
     def _ubl_get_buyer_reference(self):
-        return self.partner_id.name
+        if self.move_type in ("out_invoice", "out_refund"):
+            return self.partner_id.name
+        elif self.move_type in ("in_invoice", "in_refund"):
+            # self-billing: our reference
+            return self.ref
 
     def _ubl_add_buyer_reference(self, parent_node, ns, version="2.1"):
         self.ensure_one()
@@ -267,9 +297,9 @@ class AccountMove(models.Model):
     def _ubl_add_invoice_line(self, parent_node, iline, line_number, ns, version="2.1"):
         self.ensure_one()
         cur_name = self.currency_id.name
-        if self.move_type == "out_invoice":
+        if self.move_type in ("out_invoice", "in_invoice"):
             line_root = etree.SubElement(parent_node, ns["cac"] + "InvoiceLine")
-        elif self.move_type == "out_refund":
+        elif self.move_type in ("out_refund", "in_refund"):
             line_root = etree.SubElement(parent_node, ns["cac"] + "CreditNoteLine")
         dpo = self.env["decimal.precision"]
         qty_precision = dpo.precision_get("Product Unit of Measure")
@@ -278,9 +308,9 @@ class AccountMove(models.Model):
         line_id.text = str(line_number)
         uom_unece_code = False
         # product_uom_id is not a required field on account.move.line
-        if self.move_type == "out_invoice":
+        if self.move_type in ("out_invoice", "in_invoice"):
             qty_element_name = "InvoicedQuantity"
-        elif self.move_type == "out_refund":
+        elif self.move_type in ("out_refund", "in_refund"):
             qty_element_name = "CreditedQuantity"
         if iline.product_uom_id.unece_code:
             uom_unece_code = iline.product_uom_id.unece_code
@@ -306,7 +336,10 @@ class AccountMove(models.Model):
             iline.product_id,
             line_root,
             ns,
-            type_="sale",
+            type_="sale" if not self.self_billing else "purchase",
+            seller=None if not self.self_billing else self.partner_id,
+            customer=self.partner_id if not self.self_billing else None,
+            taxes=iline.tax_ids,
             version=version,
         )
         price_node = etree.SubElement(line_root, ns["cac"] + "Price")
@@ -388,7 +421,7 @@ class AccountMove(models.Model):
             if tax.unece_type_id.code == "VAT":
                 self._ubl_add_tax_subtotal(
                     amounts["base"],
-                    amounts["amount"],
+                    amounts["amount"] * (1 if not self.self_billing else -1),
                     tax,
                     cur_name,
                     tax_total_node,
@@ -419,10 +452,10 @@ class AccountMove(models.Model):
 
     def generate_invoice_ubl_xml_etree(self, version="2.1"):
         self.ensure_one()
-        if self.move_type == "out_invoice":
+        if self.move_type in ("out_invoice", "in_invoice"):
             nsmap, ns = self._ubl_get_nsmap_namespace("Invoice-2", version=version)
             xml_root = etree.Element("Invoice", nsmap=nsmap)
-        elif self.move_type == "out_refund":
+        elif self.move_type in ("out_refund", "in_refund"):
             nsmap, ns = self._ubl_get_nsmap_namespace("CreditNote-2", version=version)
             xml_root = etree.Element("CreditNote", nsmap=nsmap)
         self._ubl_add_header(xml_root, ns, version=version)
@@ -431,25 +464,47 @@ class AccountMove(models.Model):
         self._ubl_add_order_reference(xml_root, ns, version=version)
         self._ubl_add_contract_document_reference(xml_root, ns, version=version)
         self._ubl_add_attachments(xml_root, ns, version=version)
-        self._ubl_add_supplier_party(
-            False,
-            self.company_id,
-            "AccountingSupplierParty",
-            xml_root,
-            ns,
-            version=version,
-        )
-        self._ubl_add_customer_party(
-            self.partner_id,
-            False,
-            "AccountingCustomerParty",
-            xml_root,
-            ns,
-            version=version,
-        )
-        # the field 'partner_shipping_id' is defined in the 'sale' module
-        if hasattr(self, "partner_shipping_id") and self.partner_shipping_id:
-            self._ubl_add_delivery(self.partner_shipping_id, xml_root, ns)
+
+        if self.move_type in ("out_invoice", "out_refund"):
+            self._ubl_add_supplier_party(
+                False,
+                self.company_id,
+                "AccountingSupplierParty",
+                xml_root,
+                ns,
+                version=version,
+            )
+            self._ubl_add_customer_party(
+                self.partner_id,
+                False,
+                "AccountingCustomerParty",
+                xml_root,
+                ns,
+                version=version,
+            )
+        else:
+            self._ubl_add_supplier_party(
+                self.partner_id,
+                False,
+                "AccountingSupplierParty",
+                xml_root,
+                ns,
+                version=version,
+            )
+            self._ubl_add_customer_party(
+                False,
+                self.company_id,
+                "AccountingCustomerParty",
+                xml_root,
+                ns,
+                version=version,
+            )
+
+        if self.move_type in ("out_invoice", "out_refund"):
+            # the field 'partner_shipping_id' is defined in the 'sale' module
+            if hasattr(self, "partner_shipping_id") and self.partner_shipping_id:
+                self._ubl_add_delivery(self.partner_shipping_id, xml_root, ns)
+
         if self.move_type == "out_invoice":
             # Put paymentmeans block even when invoice is paid ?
             payment_identifier = self.get_payment_identifier()
@@ -466,6 +521,22 @@ class AccountMove(models.Model):
                 self._ubl_add_payment_terms(
                     self.invoice_payment_term_id, xml_root, ns, version=version
                 )
+        prec = self.currency_id.decimal_places
+        if (
+            self.move_type == "in_invoice"
+            and float_compare(self.amount_total, 0, precision_digits=prec) > 0
+        ):
+            # self-billing: payment mean is required in case of credit transfer
+            payment_identifier = self.get_payment_identifier()
+            self._ubl_add_payment_means(
+                self.partner_bank_id,
+                self.payment_mode_id,
+                self.invoice_date_due,
+                xml_root,
+                ns,
+                payment_identifier=payment_identifier,
+                version=version,
+            )
         self._ubl_add_tax_total(xml_root, ns, version=version)
         self._ubl_add_legal_monetary_total(xml_root, ns, version=version)
 
@@ -482,8 +553,7 @@ class AccountMove(models.Model):
 
     def generate_ubl_xml_string(self, version="2.1"):
         self.ensure_one()
-        assert self.state == "posted"
-        assert self.move_type in ("out_invoice", "out_refund")
+        self.ubl_check_move_valid()
         logger.debug("Starting to generate UBL XML Invoice file")
         lang = self.get_ubl_lang()
         # The aim of injecting lang in context
@@ -498,9 +568,9 @@ class AccountMove(models.Model):
         xml_string = etree.tostring(
             xml_root, pretty_print=True, encoding="UTF-8", xml_declaration=True
         )
-        if self.move_type == "out_invoice":
+        if self.move_type in ("out_invoice", "in_invoice"):
             self._ubl_check_xml_schema(xml_string, "Invoice", version=version)
-        elif self.move_type == "out_refund":
+        elif self.move_type in ("out_refund", "in_refund"):
             self._ubl_check_xml_schema(xml_string, "CreditNote", version=version)
         logger.debug(
             "Invoice UBL XML file generated for account invoice ID %d " "(state %s)",
@@ -512,9 +582,9 @@ class AccountMove(models.Model):
 
     def get_ubl_filename(self, version="2.1"):
         """This method is designed to be inherited"""
-        if self.move_type == "out_invoice":
+        if self.move_type in ("out_invoice", "in_invoice"):
             return "UBL-Invoice-%s.xml" % version
-        elif self.move_type == "out_refund":
+        elif self.move_type in ("out_refund", "in_refund"):
             return "UBL-CreditNote-%s.xml" % version
 
     def get_ubl_version(self):
@@ -540,10 +610,18 @@ class AccountMove(models.Model):
             pdf_stream["stream"].close()
             pdf_stream["stream"] = io.BytesIO(new_content)
 
+    def ubl_check_move_valid(self):
+        if self.state != "posted":
+            raise UserError(_("Move must be posted"))
+        if self.move_type in ("out_invoice", "out_refund"):
+            return True
+        if self.self_billing and self.move_type in ("in_invoice", "in_refund"):
+            return True
+        raise UserError(_("Invalid move type"))
+
     def attach_ubl_xml_file_button(self):
         self.ensure_one()
-        assert self.move_type in ("out_invoice", "out_refund")
-        assert self.state == "posted"
+        self.ubl_check_move_valid()
         version = self.get_ubl_version()
         xml_string = self.generate_ubl_xml_string(version=version)
         filename = self.get_ubl_filename(version=version)
