@@ -14,6 +14,16 @@ class AccountMoveLineSelectPurchaseLineWizard(models.TransientModel):
     move_line_id = fields.Many2one(
         comodel_name="account.move.line", readonly=True, required=True
     )
+    currency_id = fields.Many2one(related="move_line_id.currency_id")
+
+    move_line_quantity = fields.Float(related="move_line_id.quantity")
+    move_line_price_unit = fields.Float(
+        related="move_line_id.price_unit", string="Move line Unit Price"
+    )
+    move_line_price_subtotal = fields.Monetary(
+        related="move_line_id.price_subtotal", string="Move line Subtotal"
+    )
+
     product_id = fields.Many2one(
         comodel_name="product.product", domain="product_domain"
     )
@@ -30,11 +40,17 @@ class AccountMoveLineSelectPurchaseLineWizard(models.TransientModel):
         store=True,
         readonly=False,
     )
-    product_uom_qty = fields.Float(
+    po_line_product_uom_qty = fields.Float(
         related="purchase_order_line_id.product_uom_qty", string="Ordered Qty"
     )
-    qty_received = fields.Float(related="purchase_order_line_id.qty_received")
-    qty_invoiced = fields.Float(related="purchase_order_line_id.qty_invoiced")
+    po_line_qty_received = fields.Float(related="purchase_order_line_id.qty_received")
+    po_line_qty_invoiced = fields.Float(related="purchase_order_line_id.qty_invoiced")
+    po_line_price_unit = fields.Float(
+        related="purchase_order_line_id.price_unit", string="PO line Unit Price"
+    )
+    po_line_price_subtotal = fields.Monetary(
+        related="purchase_order_line_id.price_subtotal", string="PO line Subtotal"
+    )
 
     @api.depends("purchase_order_id")
     def _compute_product_domain(self):

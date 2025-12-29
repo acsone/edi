@@ -17,6 +17,9 @@
                     <group>
                         <field name="qty_invoiced" readonly="1" />
                     </group>
+                    <group>
+                        <field name="price_subtotal" readonly="1" />
+                    </group>
                 </group>
             </xpath>
             <xpath expr="//field[@name='invoice_lines']" position="attributes">
