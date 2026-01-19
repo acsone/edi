@@ -99,13 +99,15 @@ class AccountMoveLine(models.Model):
                     ("name", "=", order_ref),
                     ("partner_ref", "=", order_ref),
                     ("state", "in", ("purchase", "done")),
-                ]
+                ],
+                limit=1,
             )
         context = {
             **self.env.context,
             **{
                 "default_move_line_id": self.id,
-                "default_purchase_order_id": purchase_order.id
+                "default_purchase_order_id": purchase_order.id,
+                "default_purchase_order_line_id": self.purchase_line_id.id
                 if purchase_order
                 else False,
             },

@@ -33,7 +33,7 @@
                     type="object"
                     class="fa fa-fw fa-refresh text-primary"
                     title="Select Purchase Line"
-                    attrs="{'invisible': [('purchase_line_id', '!=', False)]}"
+                    attrs="{'invisible': [('parent.state', '!=', 'draft')]}"
                 />
                 <field name="purchase_line_id" invisible="1" />
             </xpath>
