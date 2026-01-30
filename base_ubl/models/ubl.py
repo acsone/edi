@@ -535,11 +535,24 @@ class BaseUbl(models.AbstractModel):
             tax_percent.text = str(tax.amount)
         else:
             tax_percent.text = "0"
-        if tax.unece_categ_code == "E":
+        if (
+            hasattr(tax, "ubl_cii_tax_exemption_reason_code")
+            and tax.ubl_cii_tax_exemption_reason_code
+        ):
+            tax_exmption_reason = etree.SubElement(
+                tax_category, ns["cbc"] + "TaxExemptionReason"
+            )
+            tax_exmption_reason.text = tax.ubl_cii_tax_exemption_reason_code
+        elif tax.unece_categ_code in ("AE", "E", "G"):
             tax_exmption_reason = etree.SubElement(
                 tax_category, ns["cbc"] + "TaxExemptionReason"
             )
             tax_exmption_reason.text = "Exempt"
+        elif tax.unece_categ_code == "O":
+            tax_exmption_reason = etree.SubElement(
+                tax_category, ns["cbc"] + "TaxExemptionReason"
+            )
+            tax_exmption_reason.text = "Transaction outside the scope of VAT"
         tax_scheme_dict = self._ubl_get_tax_scheme_dict_from_tax(tax)
         self._ubl_add_tax_scheme(tax_scheme_dict, tax_category, ns, version=version)
 
