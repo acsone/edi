@@ -172,6 +172,7 @@ class AccountMove(models.Model):
                 continue
             if tline.tax_line_id.unece_type_id.code != "VAT":
                 sign = 1 if tline.is_refund else -1
+                sign *= 1 if not self.self_billing else -1
                 amount += sign * tline.balance
         return amount
 
@@ -183,6 +184,7 @@ class AccountMove(models.Model):
                 continue
             if tline.tax_line_id.unece_type_id.code != "VAT":
                 sign = 1 if tline.is_refund else -1
+                sign *= 1 if not self.self_billing else -1
                 amount -= sign * tline.balance
         return amount
 
@@ -196,6 +198,7 @@ class AccountMove(models.Model):
                     # For non-VAT taxes, not subject to VAT, they are declared
                     # as AllowanceCharge
                     sign = 1 if tline.is_refund else -1
+                    sign *= 1 if not self.self_billing else -1
                     amount += sign * tline.balance
         return amount
 
@@ -363,6 +366,7 @@ class AccountMove(models.Model):
         tax_lines = {}
         for tline in self.line_ids:
             sign = 1 if tline.is_refund else -1
+            sign *= 1 if not self.self_billing else -1
             if tline.tax_line_id:
                 # There are as many tax line as there are repartition lines
                 tax_lines.setdefault(
@@ -374,16 +378,12 @@ class AccountMove(models.Model):
             elif tline.tax_ids:
                 # In case there are no declared (tag) repartition lines
                 for tax in tline.tax_ids:
-                    if (
-                        not tline.is_refund
-                        and tax.invoice_repartition_line_ids.tag_ids
-                        and tax.amount
+                    if not tline.is_refund and (
+                        tax.invoice_repartition_line_ids.tag_ids or tax.amount
                     ):
                         continue
-                    if (
-                        tline.is_refund
-                        and tax.refund_repartition_line_ids.tag_ids
-                        and tax.amount
+                    if tline.is_refund and (
+                        tax.refund_repartition_line_ids.tag_ids or tax.amount
                     ):
                         continue
                     tax_lines.setdefault(
@@ -429,7 +429,7 @@ class AccountMove(models.Model):
             if tax.unece_type_id.code == "VAT":
                 self._ubl_add_tax_subtotal(
                     amounts["base"],
-                    amounts["amount"] * (1 if not self.self_billing else -1),
+                    amounts["amount"],
                     tax,
                     cur_name,
                     tax_total_node,
