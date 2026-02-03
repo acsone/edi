@@ -339,7 +339,7 @@ class AccountMove(models.Model):
             type_="sale" if not self.self_billing else "purchase",
             seller=None if not self.self_billing else self.partner_id,
             customer=self.partner_id if not self.self_billing else None,
-            taxes=iline.tax_ids,
+            taxes=iline.tax_ids.filtered(lambda t: t.unece_type_id.code == "VAT"),
             version=version,
         )
         price_node = etree.SubElement(line_root, ns["cac"] + "Price")
@@ -374,9 +374,17 @@ class AccountMove(models.Model):
             elif tline.tax_ids:
                 # In case there are no declared (tag) repartition lines
                 for tax in tline.tax_ids:
-                    if not tline.is_refund and tax.invoice_repartition_line_ids.tag_ids:
+                    if (
+                        not tline.is_refund
+                        and tax.invoice_repartition_line_ids.tag_ids
+                        and tax.amount
+                    ):
                         continue
-                    if tline.is_refund and tax.refund_repartition_line_ids.tag_ids:
+                    if (
+                        tline.is_refund
+                        and tax.refund_repartition_line_ids.tag_ids
+                        and tax.amount
+                    ):
                         continue
                     tax_lines.setdefault(
                         tax,
@@ -465,6 +473,10 @@ class AccountMove(models.Model):
         self._ubl_add_contract_document_reference(xml_root, ns, version=version)
         self._ubl_add_attachments(xml_root, ns, version=version)
 
+        has_vat = any(
+            tax.unece_type_id.code == "VAT" and tax.unece_categ_id.code != "O"
+            for tax in self.line_ids.tax_ids
+        )
         if self.move_type in ("out_invoice", "out_refund"):
             self._ubl_add_supplier_party(
                 False,
@@ -472,6 +484,7 @@ class AccountMove(models.Model):
                 "AccountingSupplierParty",
                 xml_root,
                 ns,
+                vat=has_vat,
                 version=version,
             )
             self._ubl_add_customer_party(
@@ -480,6 +493,7 @@ class AccountMove(models.Model):
                 "AccountingCustomerParty",
                 xml_root,
                 ns,
+                vat=has_vat,
                 version=version,
             )
         else:
@@ -489,6 +503,7 @@ class AccountMove(models.Model):
                 "AccountingSupplierParty",
                 xml_root,
                 ns,
+                vat=has_vat,
                 version=version,
             )
             self._ubl_add_customer_party(
@@ -497,6 +512,7 @@ class AccountMove(models.Model):
                 "AccountingCustomerParty",
                 xml_root,
                 ns,
+                vat=has_vat,
                 version=version,
             )
 
