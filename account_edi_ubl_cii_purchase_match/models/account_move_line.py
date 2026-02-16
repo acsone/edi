@@ -77,13 +77,11 @@ class AccountMoveLine(models.Model):
                 rec.product_id.seller_ids.create(
                     {
                         "product_id": rec.product_id.id,
-                        "product_name": rec.name,
                         "product_code": rec.supplier_product_code,
                         "price": rec.price_unit,
                     }
                 )
             else:
-                seller.product_name = rec.name
                 if rec.supplier_product_code:
                     seller.product_code = rec.supplier_product_code
 
