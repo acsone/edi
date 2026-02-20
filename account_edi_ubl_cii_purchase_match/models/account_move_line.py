@@ -87,9 +87,8 @@ class AccountMoveLine(models.Model):
 
     def action_select_purchase_line(self):
         self.ensure_one()
-        if self.purchase_line_id:
-            purchase_order = self.purchase_line_id.order_id
-        else:
+        purchase_order = self.purchase_line_id.order_id
+        if not purchase_order and self.move_id.invoice_origin:
             order_ref = self.move_id.invoice_origin
             purchase_order = self.env["purchase.order"].search(
                 [
