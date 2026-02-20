@@ -9,7 +9,7 @@ class AccountMoveLineSelectPurchaseLineWizard(models.TransientModel):
     _name = "account.move.line.select.purchase.line.wizard"
     _description = "account move line select purchase line wizard"
 
-    partner_id = fields.Many2one(related="move_line_id.move_id.partner_id")
+    partner_id = fields.Many2one(readonly=True)
     description = fields.Char(related="move_line_id.name")
     move_line_id = fields.Many2one(
         comodel_name="account.move.line", readonly=True, required=True
