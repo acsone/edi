@@ -87,9 +87,9 @@ class AccountMoveLine(models.Model):
 
     def action_select_purchase_line(self):
         self.ensure_one()
-        if self.purchase_line_id:
-            purchase_order = self.purchase_line_id.order_id
-        else:
+        purchase_order = self.purchase_line_id.order_id
+        partner = self.move_id.partner_id
+        if not purchase_order and self.move_id.invoice_origin:
             order_ref = self.move_id.invoice_origin
             purchase_order = self.env["purchase.order"].search(
                 [
@@ -97,6 +97,7 @@ class AccountMoveLine(models.Model):
                     ("name", "=", order_ref),
                     ("partner_ref", "=", order_ref),
                     ("state", "in", ("purchase", "done")),
+                    ("partner", "=", partner.id),
                 ],
                 limit=1,
             )
@@ -104,6 +105,7 @@ class AccountMoveLine(models.Model):
             **self.env.context,
             **{
                 "default_move_line_id": self.id,
+                "default_partner_id": partner.id,
                 "default_purchase_order_id": purchase_order.id,
                 "default_purchase_order_line_id": self.purchase_line_id.id
                 if purchase_order
