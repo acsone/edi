@@ -1,1 +1,4 @@
 freezegun==1.2.2
+odoo-addon-account_move_line_packaging @ git+https://github.com/OCA/account-invoicing.git@refs/pull/2297/head#subdirectory=setup/account_move_line_packaging
+odoo-addon-uom_unece @ git+https://github.com/oca/community-data-files@refs/pull/270/head#subdirectory=setup/uom_unece
+odoo-addon-product_packaging_unece @ git+https://github.com/oca/community-data-files@refs/pull/271/head#subdirectory=setup/product_packaging_unece
