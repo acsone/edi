@@ -22,10 +22,10 @@ class AccountEdiXmlUBL20(models.AbstractModel):
             return res
         if not invoice.invoice_origin:
             return res
-        self._match_invoice_to_purchase_order(invoice, invoice.invoice_origin)
+        self._match_invoice_to_purchase_order(invoice)
         return res
 
-    def _match_invoice_to_purchase_order(self, invoice, order_ref):
+    def _match_invoice_to_purchase_order(self, invoice):
         """
         match the invoice with a purchase order using the order ref
 
@@ -34,20 +34,20 @@ class AccountEdiXmlUBL20(models.AbstractModel):
         - Vendor reference (partner_ref)
         -o nly confirmed POs are considered
         """
-        purchase_order = self.env["purchase.order"].search(
+        po_candidates = invoice._extract_purchase_references_from_origin()
+        purchase_orders = self.env["purchase.order"].search(
             [
                 "|",
-                ("name", "=", order_ref),
-                ("partner_ref", "=", order_ref),
+                ("name", "in", po_candidates),
+                ("partner_ref", "=", invoice.invoice_origin),
                 ("state", "in", ("purchase", "done")),
-            ],
-            limit=1,
+            ]
         )
-        if not purchase_order:
+        if not purchase_orders:
             return False
         for invoice_line in invoice.invoice_line_ids:
             self._match_invoice_line_to_purchase_order_line(
-                invoice_line, purchase_order.order_line
+                invoice_line, purchase_orders.order_line
             )
         return True
 
