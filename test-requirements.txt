@@ -1,1 +1,6 @@
 freezegun==1.2.2
+odoo-addon-account-edi-ubl-cii-purchase-match @ git+https://github.com/OCA/edi.git@refs/pull/1267/head#subdirectory=setup/account_edi_ubl_cii_purchase_match
+odoo-addon-account_edi_ubl_move_line_uom_and_packaging_unece@ git+https://github.com/OCA/edi.git@refs/pull/1311/head#subdirectory=setup/account_edi_ubl_move_line_uom_and_packaging_unece
+odoo-addon-account_move_line_packaging @ git+https://github.com/OCA/account-invoicing.git@refs/pull/2297/head#subdirectory=setup/account_move_line_packaging
+odoo-addon-uom_unece @ git+https://github.com/oca/community-data-files@refs/pull/270/head#subdirectory=setup/uom_unece
+odoo-addon-product_packaging_unece @ git+https://github.com/oca/community-data-files@refs/pull/271/head#subdirectory=setup/product_packaging_unece
